@@ -1,0 +1,5 @@
+requests
+xmltodict
+beautifulsoup4
+uuid
+sphinx-autodoc-annotation

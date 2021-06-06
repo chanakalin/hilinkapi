@@ -1,0 +1,612 @@
+var ERROR_SYSTEM_NO_SUPPORT = 100002;
+var ERROR_SYSTEM_NO_RIGHTS = "100003";
+var ERROR_SYSTEM_BUSY = 100004;
+var ERROR_LOGIN_USERNAME_WRONG = 108001;
+var ERROR_LOGIN_PASSWORD_WRONG = 108002;
+var ERROR_LOGIN_ALREADY_LOGIN = 108003;
+var ERROR_LOGIN_USERNAME_PWD_WRONG = 108006;
+var ERROR_LOGIN_USERNAME_PWD_ORERRUN = 108007;
+var ERROR_VOICE_BUSY = 120001;
+var ERROR_WRONG_TOKEN = 125001;
+var ERROR_WRONG_SESSION = 125002;
+var ERROR_WRONG_SESSION_TOKEN = 125003;
+
+
+
+
+***********Index***************
+GET /html/index.html HTTP/1.1
+Host: 192.168.8.1
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Connection: close
+
+HTTP/1.1 200 OK
+Date: Thu, 01 Jan 1970 00:00:00 GMT
+Server: WebServer
+Connection: close
+X-Download-Options: noopen
+X-Frame-Options: deny
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=31536000; includeSubdomains
+Content-Length: 21413
+Content-Type: text/html
+Expires: 0
+Cache-Control: no-cache
+Set-Cookie:SessionID=SqDUU5pP3mtzEFulnO5/gLGQZ52HR3PKGMUKImeO2kAs9zXHBXgm0xNKQtjxx9bXinxZeAMkLX0V8lkZ+ZAiR25+X51OZd93gegx0ODRLb1Wn0gI9M/bhtUxogsA4mqy;path=/;HttpOnly;
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+<meta name="csrf_token" content="01B4wlPozsj/CkvK6gww1LJ8huaMkcsG"/>
+<meta name="csrf_token" content="qlfm6YcuVMvx/pmBF8lSMezAJsKLQ9gs"/>
+ 
+ 
+ 
+ 
+***********Web server API token**********
+GET /api/webserver/token HTTP/1.1
+Host: 192.168.8.1
+Accept: */*
+X-Requested-With: XMLHttpRequest
+__RequestVerificationToken: 
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
+Referer: http://192.168.8.1/html/index.html
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: SessionID=SqDUU5pP3mtzEFulnO5/gLGQZ52HR3PKGMUKImeO2kAs9zXHBXgm0xNKQtjxx9bXinxZeAMkLX0V8lkZ+ZAiR25+X51OZd93gegx0ODRLb1Wn0gI9M/bhtUxogsA4mqy
+Connection: close
+
+HTTP/1.1 200 OK
+Date: Thu, 01 Jan 1970 00:00:00 GMT
+Server: WebServer
+Connection: close
+X-Download-Options: noopen
+X-Frame-Options: deny
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=31536000; includeSubdomains
+Cache-Control: no-cache
+Content-Type: text/html
+Content-Length: 101
+
+<?xml version="1.0" encoding="UTF-8"?>
+<error>
+<code>100002</code>
+<message></message>
+</error>
+
+
+
+
+***********Home****************
+GET /html/home.html HTTP/1.1
+Host: 192.168.8.1
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Referer: http://192.168.8.1/html/index.html
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: SessionID=SqDUU5pP3mtzEFulnO5/gLGQZ52HR3PKGMUKImeO2kAs9zXHBXgm0xNKQtjxx9bXinxZeAMkLX0V8lkZ+ZAiR25+X51OZd93gegx0ODRLb1Wn0gI9M/bhtUxogsA4mqy
+Connection: close
+
+HTTP/1.1 200 OK
+Date: Thu, 01 Jan 1970 00:00:00 GMT
+Server: WebServer
+Connection: close
+X-Download-Options: noopen
+X-Frame-Options: deny
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=31536000; includeSubdomains
+Content-Length: 17440
+Content-Type: text/html
+Expires: 0
+Cache-Control: no-cache
+Set-Cookie:SessionID=SqDUU5pP3mtzEFulnO5/gLGQZ52HR3PKGMUKImeO2kAs9zXHBXgm0xNKQtjxx9bXinxZeAMkLX0V8lkZ+ZAiR25+X51OZd93gegx0ODRLb1Wn0gI9M/bhtUxogsA4mqy;path=/;HttpOnly;
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+<meta name="csrf_token" content="um7XvrUbncBETgyNTshz1Xc6eoJpc+t0"/>
+<meta name="csrf_token" content="8SHrNmFES6GQLJVClu1J2Y6M+2ATTup8"/>
+        
+        
+        
+***************Device info****************
+GET /api/device/basic_information HTTP/1.1
+Host: 192.168.8.1
+Accept: */*
+X-Requested-With: XMLHttpRequest
+__RequestVerificationToken: 
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
+Referer: http://192.168.8.1/html/index.html
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: SessionID=SqDUU5pP3mtzEFulnO5/gLGQZ52HR3PKGMUKImeO2kAs9zXHBXgm0xNKQtjxx9bXinxZeAMkLX0V8lkZ+ZAiR25+X51OZd93gegx0ODRLb1Wn0gI9M/bhtUxogsA4mqy
+Connection: close
+
+HTTP/1.1 200 OK
+Date: Thu, 01 Jan 1970 00:00:00 GMT
+Server: WebServer
+Connection: close
+X-Download-Options: noopen
+X-Frame-Options: deny
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=31536000; includeSubdomains
+Cache-Control: no-cache
+Content-Type: text/html
+Content-Length: 286
+
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+<productfamily>LTE</productfamily>
+<classify>hilink</classify>
+<multimode>0</multimode>
+<restore_default_status>1</restore_default_status>
+<sim_save_pin_enable>0</sim_save_pin_enable>
+<devicename>E3372</devicename>
+</response>
+
+
+
+
+*********Device info******************
+GET /api/device/information HTTP/1.1
+Host: 192.168.8.1
+Accept: */*
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
+X-Requested-With: XMLHttpRequest
+Referer: http://192.168.8.1/html/deviceinformation.html
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: SessionID=3H01qmA4a5Dzvn1hRDt2DrIihY2TB2cMnXEIwhk/9gm+jGLykUxg3GXdd9kFgrVXryge/mOri0EHChbNlLvCgDCOc98V2qeDQ32KcH8DsjpGfzcZhoXN24eokOv95k1i
+Connection: close
+
+
+HTTP/1.1 200 OK
+Date: Thu, 01 Jan 1970 00:00:00 GMT
+Server: WebServer
+Connection: close
+X-Download-Options: noopen
+X-Frame-Options: deny
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=31536000; includeSubdomains
+Cache-Control: no-cache
+Content-Type: text/html
+Content-Length: 613
+
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+<	DeviceName>E3372</DeviceName>
+<SerialNumber>G4PBY15409003298</SerialNumber>
+<Imei>866119024435795</Imei>
+<Imsi>413027039748317</Imsi>
+<Iccid>8994029702208613178F</Iccid>
+<Msisdn></Msisdn>
+<HardwareVersion>CL2E3372HM</HardwareVersion>
+<SoftwareVersion>22.200.15.00.00</SoftwareVersion>
+<WebUIVersion>17.100.13.01.03</WebUIVersion>
+<MacAddress1>BA:AB:BE:34:00:00</MacAddress1>
+<MacAddress2></MacAddress2>
+<ProductFamily>LTE</ProductFamily>
+<Classify>hilink</Classify>
+<supportmode>LTE|WCDMA|GSM</supportmode>
+<workmode>LTE</workmode>
+</response>
+
+
+
+
+
+
+***************Status - WAN IP*****************
+GET /api/monitoring/status HTTP/1.1
+Host: 192.168.8.1
+Accept: */*
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
+X-Requested-With: XMLHttpRequest
+Referer: http://192.168.8.1/html/deviceinformation.html
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: SessionID=3H01qmA4a5Dzvn1hRDt2DrIihY2TB2cMnXEIwhk/9gm+jGLykUxg3GXdd9kFgrVXryge/mOri0EHChbNlLvCgDCOc98V2qeDQ32KcH8DsjpGfzcZhoXN24eokOv95k1i
+Connection: close
+
+HTTP/1.1 200 OK
+Date: Thu, 01 Jan 1970 00:00:00 GMT
+Server: WebServer
+Connection: close
+X-Download-Options: noopen
+X-Frame-Options: deny
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=31536000; includeSubdomains
+Cache-Control: no-cache
+Content-Type: text/html
+Content-Length: 1140
+
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+<ConnectionStatus>901</ConnectionStatus>
+<WifiConnectionStatus></WifiConnectionStatus>
+<SignalStrength></SignalStrength>
+<SignalIcon>5</SignalIcon>
+<CurrentNetworkType>19</CurrentNetworkType>
+<CurrentServiceDomain>3</CurrentServiceDomain>
+<RoamingStatus>0</RoamingStatus>
+<BatteryStatus></BatteryStatus>
+<BatteryLevel></BatteryLevel>
+<BatteryPercent></BatteryPercent>
+<simlockStatus>0</simlockStatus>
+<WanIPAddress>10.249.198.122</WanIPAddress>
+<WanIPv6Address></WanIPv6Address>
+<PrimaryDns>202.69.205.1</PrimaryDns>
+<SecondaryDns>202.69.205.2</SecondaryDns>
+<PrimaryIPv6Dns></PrimaryIPv6Dns>
+<SecondaryIPv6Dns></SecondaryIPv6Dns>
+<CurrentWifiUser></CurrentWifiUser>
+<TotalWifiUser></TotalWifiUser>
+<currenttotalwifiuser>0</currenttotalwifiuser>
+<ServiceStatus>2</ServiceStatus>
+<SimStatus>1</SimStatus>
+<WifiStatus></WifiStatus>
+<CurrentNetworkTypeEx>101</CurrentNetworkTypeEx>
+<maxsignal>5</maxsignal>
+<wifiindooronly>-1</wifiindooronly>
+<wififrequence>0</wififrequence>
+<classify>hilink</classify>
+<flymode>0</flymode>
+<cellroam>0</cellroam>
+</response>
+
+
+
+
+
+
+
+***************DHCP settings**********
+GET /api/dhcp/settings HTTP/1.1
+Host: 192.168.8.1
+Accept: */*
+X-Requested-With: XMLHttpRequest
+__RequestVerificationToken: 
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
+Referer: http://192.168.8.1/html/index.html
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: SessionID=SqDUU5pP3mtzEFulnO5/gLGQZ52HR3PKGMUKImeO2kAs9zXHBXgm0xNKQtjxx9bXinxZeAMkLX0V8lkZ+ZAiR25+X51OZd93gegx0ODRLb1Wn0gI9M/bhtUxogsA4mqy
+Connection: close
+
+HTTP/1.1 200 OK
+Date: Thu, 01 Jan 1970 00:00:00 GMT
+Server: WebServer
+Connection: close
+X-Download-Options: noopen
+X-Frame-Options: deny
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=31536000; includeSubdomains
+Cache-Control: no-cache
+Content-Type: text/html
+Content-Length: 437
+
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+<DhcpIPAddress>192.168.8.1</DhcpIPAddress>
+<DhcpLanNetmask>255.255.255.0</DhcpLanNetmask>
+<DhcpStatus>1</DhcpStatus>
+<DhcpStartIPAddress>192.168.8.100</DhcpStartIPAddress>
+<DhcpEndIPAddress>192.168.8.200</DhcpEndIPAddress>
+<DhcpLeaseTime>86400</DhcpLeaseTime>
+<DnsStatus>1</DnsStatus>
+<PrimaryDns>192.168.8.1</PrimaryDns>
+<SecondaryDns>192.168.8.1</SecondaryDns>
+</response>
+
+
+
+
+***********Login state - login disabled***********
+GET /api/user/state-login HTTP/1.1
+Host: 192.168.8.1
+Accept: */*
+X-Requested-With: XMLHttpRequest
+__RequestVerificationToken: 
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
+Referer: http://192.168.8.1/html/index.html
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: SessionID=SqDUU5pP3mtzEFulnO5/gLGQZ52HR3PKGMUKImeO2kAs9zXHBXgm0xNKQtjxx9bXinxZeAMkLX0V8lkZ+ZAiR25+X51OZd93gegx0ODRLb1Wn0gI9M/bhtUxogsA4mqy
+Connection: close
+
+HTTP/1.1 200 OK
+Date: Thu, 01 Jan 1970 00:00:00 GMT
+Server: WebServer
+Connection: close
+X-Download-Options: noopen
+X-Frame-Options: deny
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=31536000; includeSubdomains
+Cache-Control: no-cache
+Content-Type: text/html
+Content-Length: 140
+
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+<State>0</State>
+<Username></Username>
+<password_type>0</password_type>
+</response>
+
+
+
+***********Login state - login enabled - not logged***********
+GET /api/user/state-login HTTP/1.1
+Host: 192.168.8.1
+Accept: */*
+X-Requested-With: XMLHttpRequest
+__RequestVerificationToken: 
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
+Referer: http://192.168.8.1/html/index.html
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: SessionID=9+6QwYUH8NDQV9p3JDOryPYJ9Wstg4A+kGkeMWuAxk2afXaM9VcirSnF1NZGzAHVvDBBR1mlVfXX+P2A/Ne4CGpx7xAxlXAb4N3N+fAqYNMDopKBEXkzARKBVUlL+sdA
+Connection: close
+
+HTTP/1.1 200 OK
+Date: Thu, 01 Jan 1970 00:00:00 GMT
+Server: WebServer
+Connection: close
+X-Download-Options: noopen
+X-Frame-Options: deny
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=31536000; includeSubdomains
+Cache-Control: no-cache
+Content-Type: text/html
+Content-Length: 141
+
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+<State>-1</State>
+<Username></Username>
+<password_type>4</password_type>
+</response>
+
+
+
+
+***********Login state - login enabled - logged***********
+GET /api/user/state-login HTTP/1.1
+Host: 192.168.8.1
+Accept: */*
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
+X-Requested-With: XMLHttpRequest
+Referer: http://192.168.8.1/html/home.html
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: SessionID=IwHKHeV9gDB/C0bHlGuFuKPy6aDwbAnAPJC2jshmsbs52zOvOmQyL4Z/UPhNjlzpY0P5XiQiU5REKv5x4hf/XRJ6Rfd1o5/NsAnzH2J1Af510WOSV/PvRHM1ULQjGfKe
+Connection: close
+
+HTTP/1.1 200 OK
+Date: Thu, 01 Jan 1970 00:00:00 GMT
+Server: WebServer
+Connection: close
+X-Download-Options: noopen
+X-Frame-Options: deny
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=31536000; includeSubdomains
+Cache-Control: no-cache
+Content-Type: text/html
+Content-Length: 145
+
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+<State>0</State>
+<Username>admin</Username>
+<password_type>4</password_type>
+</response>
+
+
+
+
+
+
+
+POST /api/user/login HTTP/1.1
+Host: 192.168.8.1
+Content-Length: 1024
+Accept: */*
+encrypt_transmit: encrypt_transmit
+X-Requested-With: XMLHttpRequest
+__RequestVerificationToken: tbQ0FZEKh51ebR1fzzW/5x2WwIs08N+D
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+Origin: http://192.168.8.1
+Referer: http://192.168.8.1/html/home.html
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: SessionID=6g+9RPwKMxVht6wekFuQlflNLlaWwbTusdJAGatXfx6NPGI2cNB6ra4xXD2Zvh7j8tvhv+BVw0epqgt3TdiHQZ8gxpkx3Ery7bTaZhduP2x7SN7uq1c17LJD9CG/pFY/
+Connection: close
+
+4c1b6d43940c8f548df648f4d0798676879e3ae5e1fe81f1572b5d819a457fd5bcfd5f7262eceef53b1eab1c3964fa322df2ef61e375a38e173dac5d246f0c3682ac66a0f99c956fd5521e806b75f9b3a6b4420e71c3c3fa490843e9d1019482ab035b54579b9fc40d9e0cba75baeb34d334d3570d605ce204875f77807184e0d50aea803ff42bd6362736512dd0f8069601dac53bd6515777b26713e07194629e24a6e5e24203b0c434a9b41e2c492642d35c727a99c20dedab2e1d5bd373348404ccba2a6333676326438d0791da0471d4f921e7b06af33741eb14de80022f825e190bee696fa0ef149f4f1ce607f0314689b9058f56c16de8d968e1d8f61b5c9a5b6d84a46c02eb555c8423c5807d75ffc53646a5c7885211310ea26e0e538e828bb5c339d47dd436b0dcd98c50057d05461495548eb342b1a04ba7ea49af223339749b62f1e8fd4d304f67a6d3a5df3cbfae2bee57f314d285ce554fbc21763851702939e22fa7da38a3f6ff643c0de886c0a7cc64478a282e7bd38ecd17082d433ac526d1b7f4ee8faa7520b6a9b865e409c487e24dd14546fb52ddf634d52e9d80b07b9276d55295e40348e1e65cc234ccc36c071ed233631bf0f11d93f43080104a752c071516d2d552961818a7576d1c5731c06f5f20b9e7c911abe88bde832b87370f3a34306268b44244387655b299961558b3b351a0d81a2c2a64
+
+
+HTTP/1.1 200 OK
+Date: Thu, 01 Jan 1970 00:00:00 GMT
+Server: WebServer
+Connection: close
+X-Download-Options: noopen
+X-Frame-Options: deny
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=31536000; includeSubdomains
+Cache-Control: no-cache
+Content-Type: text/html
+Content-Length: 61
+__RequestVerificationTokenone:+tcuH14OrT6aYIctxil5YGp7VLBOICAB
+__RequestVerificationTokentwo:2sRwiy0ASPC+Pc0i08kdwO6aRifMqWBa
+__RequestVerificationToken:+tcuH14OrT6aYIctxil5YGp7VLBOICAB#2sRwiy0ASPC+Pc0i08kdwO6aRifMqWBa#NPtSclrMRKz+0+pfUPXENFOkiA+OoLd1#RZaMQVqkyfCgLcYhoK1RW/GFbSxk6r71#zuDHntvnukjwV3vIWZxYS1OXCDQY57Mn#rqx6p7Cpwe1NSLtWkhqTOO1oV+0XCE0z#o4HjzoBsHjsvkSIdFCnG+zAwq5rm07/2#pxYzJTe/1DimTM7hHoV2/ksjf2XSNZq7#9U4cU/q4GVyrFYo42w6Ip+D+ik9BWqKJ#OKdTvlNyCZn70d1+1rRK/pPmXvkaK5n+#+zhfajWJLiOQfroMPH/qX4/5Y3C8F7wn#3ostG12oGEPQHnsRHXCCzN5GlAQGzuep#Ye647lZHILB1WMuD7xSsRcDiXM6AqpsB#DubQ1Akm2WV5D86LqM4JzBuNkMCbdl5O#6Z234ROH5HvYxAGqHtxSpmiiegxSPm0H#iVO4EmIfLCCHGvf8kjO8oDRNhkJzjnT2#JCt4Z+huq5lIwGIYKo0Gm6sr/BVprk3u#/c7+5jE3b50PXpRJaOJrOfq0zqZOBGRZ#1oDL/pzeMrfJbmDA56J40JwsZ6t3gASn#ionVpX0PWFeyTh9SZbTPG53OxMLokHC4#hV3VV7BVPpiun+8CjHHXL98VmYZUyDa/#XdUBU/95na5KoJ3MrN+mP+jzxuP1mFO8#Mt4pj6PlFmOua4ztgOddKNJ4LGS7ZYJj#A1nnzsKT+QuV7CysZukI5YY9MjxDcJJt#A0XlymPxhUhg0W07zudzSKRAxGBXgvo4#LehswwbtUrHLLetGct09NQ5k0SajyHkW#xLgdMxrKjJ2v2L8qZlCoyMny2nXpaoDG#OH1idIHHsIMX5pBK+paMz+k0xG4geLyi#kKbrlv9lySIJ46eZeUbJs6EuIli9dNfp#8j9AGMNqClXb0yydgJNpfE0pwolfRZSQ#sHrIygnzcsfxcJsJjrzV3rvQ2oAt/4Ew#yag+Am8RdGNet2OVYgkxzEh6gjsfRZxs#
+Set-Cookie:SessionID=If704bX6TjEiBZVHhfLmPpDhGZ97ZtIoqkPsQ8ZWTygfpTyeoPqFlC6fJvkBkE5P38ZwekJCuvlsuxTF1B91taBgwMsML2B+n205JRRtjY2k+OPoLXe0SqXxR4CKR66+;path=/;HttpOnly;
+
+<?xml version="1.0" encoding="UTF-8"?><response>OK</response>
+
+
+
+
+
+
+
+******Connection status - disconnected****
+GET /api/dialup/mobile-dataswitch HTTP/1.1
+Host: 192.168.8.1
+Accept: */*
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
+X-Requested-With: XMLHttpRequest
+Referer: http://192.168.8.1/html/home.html
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: SessionID=VxIlXKn5RT6piu/hWMT3b9ztK3V7lDD5Se+dXgU7s68G66/tZoJJ1GIbh26oLO4gzv9o+K93tggyoTZ4rgBGj5uPmH4IJzMleK+XO2a2BXtHxXuX+OdOuKcNSj0d67Er
+Connection: close
+
+HTTP/1.1 200 OK
+Date: Thu, 01 Jan 1970 00:00:00 GMT
+Server: WebServer
+Connection: close
+X-Download-Options: noopen
+X-Frame-Options: deny
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=31536000; includeSubdomains
+Cache-Control: no-cache
+Content-Type: text/html
+Content-Length: 85
+
+<?xml version="1.0" encoding="UTF-8"?><response><dataswitch>0</dataswitch></response>
+
+
+***************Connected***********************
+GET /api/dialup/mobile-dataswitch HTTP/1.1
+Host: 192.168.8.1
+Accept: */*
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
+X-Requested-With: XMLHttpRequest
+Referer: http://192.168.8.1/html/home.html
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: SessionID=zv9Q0ncVkNhhmd0JHMXOInIJE8C5TZpHgg9oVZcJYTD3ZOe1r/7kWFvm6aOeXCcLJWKn+QJ7QzKtIqVyuOtbmQFP1jKue9BcGNol7z8si2HdjRl6y1ar766Smcoc1yTp
+Connection: close
+
+HTTP/1.1 200 OK
+Date: Thu, 01 Jan 1970 00:00:00 GMT
+Server: WebServer
+Connection: close
+X-Download-Options: noopen
+X-Frame-Options: deny
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=31536000; includeSubdomains
+Cache-Control: no-cache
+Content-Type: text/html
+Content-Length: 85
+
+<?xml version="1.0" encoding="UTF-8"?><response><dataswitch>1</dataswitch></response>
+
+
+
+
+****************Data off******************
+POST /api/dialup/mobile-dataswitch HTTP/1.1
+Host: 192.168.8.1
+Content-Length: 83
+Accept: */*
+X-Requested-With: XMLHttpRequest
+__RequestVerificationToken: aqE9WGjvmi/tyfkgfYC8yTZEq6ouqA9/
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+Origin: http://192.168.8.1
+Referer: http://192.168.8.1/html/home.html
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: SessionID=zv9Q0ncVkNhhmd0JHMXOInIJE8C5TZpHgg9oVZcJYTD3ZOe1r/7kWFvm6aOeXCcLJWKn+QJ7QzKtIqVyuOtbmQFP1jKue9BcGNol7z8si2HdjRl6y1ar766Smcoc1yTp
+Connection: close
+
+<?xml version="1.0" encoding="UTF-8"?><request><dataswitch>0</dataswitch></request>
+
+HTTP/1.1 200 OK
+Date: Thu, 01 Jan 1970 00:00:00 GMT
+Server: WebServer
+Connection: close
+X-Download-Options: noopen
+X-Frame-Options: deny
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=31536000; includeSubdomains
+Cache-Control: no-cache
+Content-Type: text/html
+Content-Length: 61
+__RequestVerificationToken:IIrPaOx62oMPHztokRb+gnBisj683J0g
+
+<?xml version="1.0" encoding="UTF-8"?><response>OK</response>
+
+
+
+****************Data on*****************
+HTTP/1.1 200 OK
+Date: Thu, 01 Jan 1970 00:00:00 GMT
+Server: WebServer
+Connection: close
+X-Download-Options: noopen
+X-Frame-Options: deny
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=31536000; includeSubdomains
+Cache-Control: no-cache
+Content-Type: text/html
+Content-Length: 61
+__RequestVerificationToken:IIrPaOx62oMPHztokRb+gnBisj683J0g
+
+<?xml version="1.0" encoding="UTF-8"?><response>OK</response>
+
+
+
+
+*****************Support LTE on*************
+POST /api/net/net-mode HTTP/1.1
+Host: 192.168.8.1
+Content-Length: 161
+Accept: */*
+X-Requested-With: XMLHttpRequest
+__RequestVerificationToken: ncOLz+W5BlBpALnhq8+iKUonmCf68N+z
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+Origin: http://192.168.8.1
+Referer: http://192.168.8.1/html/mobilenetworksettings.html
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: SessionID=/7d9ngas9LGPMmHrdSkDgSEQb6Nt1/Gqb5rkboGoeJhFjuYoZjtyF8F01KJU6p6HCbDdWa5Oi5Q+Q0+n+O93gGqW1Jf7nkzm7zK3WeX3a20/FL7jCmex355cQyhDDaPZ
+Connection: close
+
+<?xml version="1.0" encoding="UTF-8"?><request><NetworkMode>00</NetworkMode><NetworkBand>2000004400000</NetworkBand><LTEBand>7FFFFFFFFFFFFFFF</LTEBand></request>
+
+HTTP/1.1 200 OK
+Date: Thu, 01 Jan 1970 00:00:00 GMT
+Server: WebServer
+Connection: close
+X-Download-Options: noopen
+X-Frame-Options: deny
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=31536000; includeSubdomains
+Cache-Control: no-cache
+Content-Type: text/html
+Content-Length: 101
+__RequestVerificationToken:CQe0Jf8cFydqncdI49jX1NCUnLE5qPSZ
+
+<?xml version="1.0" encoding="UTF-8"?>
+<error>
+<code>112003</code>
+<message></message>
+</error>
+
+
+
+*************Support LTE off*************
+
+
+
+ 

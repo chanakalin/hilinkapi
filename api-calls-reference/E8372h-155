@@ -1,0 +1,1006 @@
+GET / HTTP/1.1
+Host: 192.168.9.1
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Connection: close
+
+HTTP/1.1 200 OK
+Set-Cookie: SessionID=iwKdLscBkRmyOuCls0HBz0QcjwVI7aBAj2tyPpvkSdzCiOWQd2HpAztFZ1NIJ7UYNEVcU0bFwZMhq0J6R99ASAf1c3zqysjfOTuCQI07bg0sH5UcUG1Ko15t6LVAtIOu; path=/; HttpOnly;
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Content-Type: text/html
+X-Download-Options: noopen
+X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-eval'
+X-Content-Type-Options: nosniff
+Date: Thu, 17 Dec 2020 00:51:40 GMT
+Connection: Keep-Alive
+Content-Language: en
+Content-Length: 679
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head><meta name="csrf_token" content="m0PgufdxmR0BUdz0UNEEApaPmsQ8hJfx">
+<meta name="csrf_token" content="0i12Gh0g9OafiyH3Kj1tn28x2jbcd57v">
+
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv='Pragma' content='no-cache'/>
+        <script type="text/javascript">
+          window.location.replace("/html/index.html");
+        </script>
+        <title></title>
+    </head>
+    <body style="background-color: #FFFFFF;">
+    </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+GET /api/webserver/publickey HTTP/1.1
+Host: 192.168.9.1
+Accept: */*
+X-Requested-With: XMLHttpRequest
+_ResponseSource: Broswer
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
+Referer: http://192.168.9.1/html/index.html
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: SessionID=iwKdLscBkRmyOuCls0HBz0QcjwVI7aBAj2tyPpvkSdzCiOWQd2HpAztFZ1NIJ7UYNEVcU0bFwZMhq0J6R99ASAf1c3zqysjfOTuCQI07bg0sH5UcUG1Ko15t6LVAtIOu
+Connection: close
+
+HTTP/1.1 200 OK
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Content-Type: text/html
+X-Download-Options: noopen
+X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-eval'
+X-Content-Type-Options: nosniff
+Date: Thu, 17 Dec 2020 00:51:42 GMT
+Connection: Keep-Alive
+Content-Language: en
+Content-Length: 627
+
+<?xml version="1.0" encoding="UTF-8"?><response><encpubkeye>010001</encpubkeye><encpubkeyn>e9a69b8c98fe246bb7a4367b25bec7cddfbda2404826751ce618806717ac45c453e778b692b20e158ce5126a4d3966a1711cd6b3d3d7d92031cd4929083f24f1e93989148099dc8812b31aa8aceca803693b89d1c9793dd8482dec499a1e2fb2fb5fafbfce6a18724a91e828820e8792bee546643083a60679bb16eda695238635623cb7ff9ca90156c5ab4448e11be4444711b7e823d0ef4b2cdc19a56fe09894abdcf802a211c295fa544cdbca132ab33bed620a5ff85870532b7809c67309ccb10d60e5966d9a87c863f430cc834b52962afb0822fdf4d818e7baa863182367521597ff64f2030ace988f20931f333ed81d18c0b8fe0dc6099aef74375ea7</encpubkeyn></response>
+
+
+
+
+
+
+
+
+GET /api/webserver/publickey HTTP/1.1
+Host: 192.168.9.1
+Accept: */*
+X-Requested-With: XMLHttpRequest
+_ResponseSource: Broswer
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
+Referer: http://192.168.9.1/html/index.html
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: SessionID=iwKdLscBkRmyOuCls0HBz0QcjwVI7aBAj2tyPpvkSdzCiOWQd2HpAztFZ1NIJ7UYNEVcU0bFwZMhq0J6R99ASAf1c3zqysjfOTuCQI07bg0sH5UcUG1Ko15t6LVAtIOu
+Connection: close
+
+HTTP/1.1 200 OK
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Content-Type: text/html
+X-Download-Options: noopen
+X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-eval'
+X-Content-Type-Options: nosniff
+Date: Thu, 17 Dec 2020 00:51:42 GMT
+Connection: Keep-Alive
+Content-Language: en
+Content-Length: 627
+
+<?xml version="1.0" encoding="UTF-8"?><response><encpubkeye>010001</encpubkeye><encpubkeyn>e9a69b8c98fe246bb7a4367b25bec7cddfbda2404826751ce618806717ac45c453e778b692b20e158ce5126a4d3966a1711cd6b3d3d7d92031cd4929083f24f1e93989148099dc8812b31aa8aceca803693b89d1c9793dd8482dec499a1e2fb2fb5fafbfce6a18724a91e828820e8792bee546643083a60679bb16eda695238635623cb7ff9ca90156c5ab4448e11be4444711b7e823d0ef4b2cdc19a56fe09894abdcf802a211c295fa544cdbca132ab33bed620a5ff85870532b7809c67309ccb10d60e5966d9a87c863f430cc834b52962afb0822fdf4d818e7baa863182367521597ff64f2030ace988f20931f333ed81d18c0b8fe0dc6099aef74375ea7</encpubkeyn></response>
+
+
+
+
+
+
+GET /api/webserver/token HTTP/1.1
+Host: 192.168.9.1
+Accept: */*
+X-Requested-With: XMLHttpRequest
+_ResponseSource: Broswer
+__RequestVerificationToken: 
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
+Referer: http://192.168.9.1/html/index.html
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: SessionID=iwKdLscBkRmyOuCls0HBz0QcjwVI7aBAj2tyPpvkSdzCiOWQd2HpAztFZ1NIJ7UYNEVcU0bFwZMhq0J6R99ASAf1c3zqysjfOTuCQI07bg0sH5UcUG1Ko15t6LVAtIOu
+Connection: close
+
+HTTP/1.1 200 OK
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Content-Type: text/html
+X-Download-Options: noopen
+X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-eval'
+X-Content-Type-Options: nosniff
+Date: Thu, 17 Dec 2020 00:51:42 GMT
+Connection: Keep-Alive
+Content-Language: en
+Content-Length: 138
+
+<?xml version="1.0" encoding="UTF-8"?><response><token>wy0wiaNtUA2PMkZUCD95lHn2dRbk2hx6N8cT0tyzI1aXmA4hnqyS4ULpIvEX8xMK</token></response>
+
+
+
+
+
+#before login
+GET /api/user/state-login HTTP/1.1
+Host: 192.168.9.1
+Accept: */*
+X-Requested-With: XMLHttpRequest
+_ResponseSource: Broswer
+__RequestVerificationToken: wy0wiaNtUA2PMkZUCD95lHn2dRbk2hx6N8cT0tyzI1aXmA4hnqyS4ULpIvEX8xMK
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
+Referer: http://192.168.9.1/html/index.html
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: SessionID=iwKdLscBkRmyOuCls0HBz0QcjwVI7aBAj2tyPpvkSdzCiOWQd2HpAztFZ1NIJ7UYNEVcU0bFwZMhq0J6R99ASAf1c3zqysjfOTuCQI07bg0sH5UcUG1Ko15t6LVAtIOu
+Connection: close
+
+HTTP/1.1 200 OK
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Content-Type: text/html
+X-Download-Options: noopen
+X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-eval'
+X-Content-Type-Options: nosniff
+Date: Thu, 17 Dec 2020 00:51:45 GMT
+Connection: Keep-Alive
+Content-Language: en
+Content-Length: 346
+
+<?xml version="1.0" encoding="UTF-8"?><response><userlevel></userlevel><firstlogin>1</firstlogin><State>-1</State><rsapadingtype>1</rsapadingtype><extern_password_type>1</extern_password_type><username></username><password_type>4</password_type><history_login_flag>0</history_login_flag><wifipwdsamewithwebpwd>0</wifipwdsamewithwebpwd></response>
+
+
+
+
+
+
+
+GET /api/device/basic_information HTTP/1.1
+Host: 192.168.9.1
+Accept: */*
+X-Requested-With: XMLHttpRequest
+_ResponseSource: Broswer
+__RequestVerificationToken: wy0wiaNtUA2PMkZUCD95lHn2dRbk2hx6N8cT0tyzI1aXmA4hnqyS4ULpIvEX8xMK
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
+Referer: http://192.168.9.1/html/index.html
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: SessionID=iwKdLscBkRmyOuCls0HBz0QcjwVI7aBAj2tyPpvkSdzCiOWQd2HpAztFZ1NIJ7UYNEVcU0bFwZMhq0J6R99ASAf1c3zqysjfOTuCQI07bg0sH5UcUG1Ko15t6LVAtIOu
+Connection: close
+
+HTTP/1.1 200 OK
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Content-Type: text/html
+X-Download-Options: noopen
+X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-eval'
+X-Content-Type-Options: nosniff
+Connection: Keep-Alive
+Content-Length: 394
+
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+<productfamily>LTE</productfamily>
+<classify>mobile-wifi</classify>
+<multimode>0</multimode>
+<restore_default_status>0</restore_default_status>
+<sim_save_pin_enable>0</sim_save_pin_enable>
+<devicename>E8372h-155</devicename>
+<SoftwareVersion>21.335.05.00.00</SoftwareVersion>
+<WebUIVersion>21.100.52.01.03</WebUIVersion>
+</response>
+
+
+
+
+
+
+
+
+
+
+GET /api/security/bridgemode HTTP/1.1
+Host: 192.168.9.1
+Accept: */*
+X-Requested-With: XMLHttpRequest
+_ResponseSource: Broswer
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
+Referer: http://192.168.9.1/html/home.html
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: SessionID=iwKdLscBkRmyOuCls0HBz0QcjwVI7aBAj2tyPpvkSdzCiOWQd2HpAztFZ1NIJ7UYNEVcU0bFwZMhq0J6R99ASAf1c3zqysjfOTuCQI07bg0sH5UcUG1Ko15t6LVAtIOu
+Connection: close
+
+HTTP/1.1 200 OK
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Content-Type: text/html
+X-Download-Options: noopen
+X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-eval'
+X-Content-Type-Options: nosniff
+Date: Thu, 17 Dec 2020 00:52:26 GMT
+Connection: Keep-Alive
+Content-Language: en
+Content-Length: 91
+
+<?xml version="1.0" encoding="UTF-8"?><error><message></message><code>100002</code></error>
+
+
+
+
+
+
+
+GET /api/net/current-plmn HTTP/1.1
+Host: 192.168.9.1
+Accept: */*
+X-Requested-With: XMLHttpRequest
+_ResponseSource: Broswer
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
+Referer: http://192.168.9.1/html/home.html
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: SessionID=iwKdLscBkRmyOuCls0HBz0QcjwVI7aBAj2tyPpvkSdzCiOWQd2HpAztFZ1NIJ7UYNEVcU0bFwZMhq0J6R99ASAf1c3zqysjfOTuCQI07bg0sH5UcUG1Ko15t6LVAtIOu
+Connection: close
+
+HTTP/1.1 200 OK
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Content-Type: text/html
+X-Download-Options: noopen
+X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-eval'
+X-Content-Type-Options: nosniff
+Connection: Keep-Alive
+Content-Length: 220
+
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+<State>0</State>
+<FullName>U Mobile Stay Safe</FullName>
+<ShortName>U Mobile Stay Safe</ShortName>
+<Numeric>50218</Numeric>
+<Rat>7</Rat>
+<Spn></Spn>
+</response>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#########LOGIN##################
+GET /api/webserver/token HTTP/1.1
+Host: 192.168.9.1
+Accept: */*
+X-Requested-With: XMLHttpRequest
+_ResponseSource: Broswer
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
+Referer: http://192.168.9.1/html/home.html
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: SessionID=iwKdLscBkRmyOuCls0HBz0QcjwVI7aBAj2tyPpvkSdzCiOWQd2HpAztFZ1NIJ7UYNEVcU0bFwZMhq0J6R99ASAf1c3zqysjfOTuCQI07bg0sH5UcUG1Ko15t6LVAtIOu
+Connection: close
+
+HTTP/1.1 200 OK
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Content-Type: text/html
+X-Download-Options: noopen
+X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-eval'
+X-Content-Type-Options: nosniff
+Date: Thu, 17 Dec 2020 00:58:04 GMT
+Connection: Keep-Alive
+Content-Language: en
+Content-Length: 138
+
+<?xml version="1.0" encoding="UTF-8"?><response><token>dNwnPGXfrrLg9iQeSu9mSwQBEB0C2jYbFU0KTn8QWLAEho98MjFG1gFthfQ0WBbC</token></response>
+
+
+
+
+
+POST /api/user/challenge_login HTTP/1.1
+Host: 192.168.9.1
+Content-Length: 186
+Accept: */*
+X-Requested-With: XMLHttpRequest
+_ResponseSource: Broswer
+__RequestVerificationToken: FU0KTn8QWLAEho98MjFG1gFthfQ0WBbC
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+Origin: http://192.168.9.1
+Referer: http://192.168.9.1/html/home.html
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: SessionID=iwKdLscBkRmyOuCls0HBz0QcjwVI7aBAj2tyPpvkSdzCiOWQd2HpAztFZ1NIJ7UYNEVcU0bFwZMhq0J6R99ASAf1c3zqysjfOTuCQI07bg0sH5UcUG1Ko15t6LVAtIOu
+Connection: close
+
+<?xml version="1.0" encoding="UTF-8"?><request><username>admin</username><firstnonce>adfb22b49eaffa99b1e2923762784c442e82824658f058954e3baa57a5ac43b7</firstnonce><mode>1</mode></request>
+
+HTTP/1.1 200 OK
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Content-Type: text/html
+X-Download-Options: noopen
+X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-eval'
+X-Content-Type-Options: nosniff
+__RequestVerificationToken: 0KQ6xUp7YKZIi0cWQHnG4L1pfvYibwUc
+Content-Length: 337
+
+<?xml version="1.0" encoding="UTF-8"?><response><iterations>100</iterations><servernonce>adfb22b49eaffa99b1e2923762784c442e82824658f058954e3baa57a5ac43b7nE0m37cFvTM0yWho2E0fl3G0jGVwb5Nw</servernonce><modeselected>1</modeselected><salt>2ceb7a1e6eff3d0cafc2b82488fe802e6c4a64831637404f9fda1e6a6f027ba0</salt><newType>0</newType></response>
+
+
+
+
+POST /api/user/authentication_login HTTP/1.1
+Host: 192.168.9.1
+Content-Length: 269
+Accept: */*
+X-Requested-With: XMLHttpRequest
+_ResponseSource: Broswer
+__RequestVerificationToken: 0KQ6xUp7YKZIi0cWQHnG4L1pfvYibwUc
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+Origin: http://192.168.9.1
+Referer: http://192.168.9.1/html/home.html
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: SessionID=iwKdLscBkRmyOuCls0HBz0QcjwVI7aBAj2tyPpvkSdzCiOWQd2HpAztFZ1NIJ7UYNEVcU0bFwZMhq0J6R99ASAf1c3zqysjfOTuCQI07bg0sH5UcUG1Ko15t6LVAtIOu
+Connection: close
+
+<?xml version="1.0" encoding="UTF-8"?><request><clientproof>c13295c608c36727156648d72ea68c98992e1409dbc4f0a802d54e7ffe9b4f4d</clientproof><finalnonce>adfb22b49eaffa99b1e2923762784c442e82824658f058954e3baa57a5ac43b7nE0m37cFvTM0yWho2E0fl3G0jGVwb5Nw</finalnonce></request>
+
+
+HTTP/1.1 200 OK
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Content-Type: text/html
+X-Download-Options: noopen
+X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-eval'
+X-Content-Type-Options: nosniff
+Set-Cookie: SessionID=ZhqkscDsixEnhDwgx51L0NnF0ItKRFQzZR0okx4Yd7zFMZZjKx0JvAcJaxD0HncY0XKa1YGM7vaY5oYL7f7zSFD1Di0fvca0LprEb8aQCQ5EVgGElTQHJxNWRmPHa3pq; path=/; HttpOnly;
+__RequestVerificationTokenone: dryrFLPdPTApb10fjfyT27iOBt7f0kq6
+__RequestVerificationTokentwo: YertGqeIQl0UilYTCWv3tkigIj2xHPfC
+__RequestVerificationToken: dryrFLPdPTApb10fjfyT27iOBt7f0kq6#YertGqeIQl0UilYTCWv3tkigIj2xHPfC#k3FOXir3AfoMHwrGOJRb55j7sbRqlJ3f#mZrFrm0PFt5w6xfCxOAzejk2gVlfniqW#fs4b3MV1XDEOtJwbE9kPA4q6KB8lfHva#CFPJKnKVhjxT7xl0uxFQYAc6hisSSavT#lyOsI8eXiaYvjRjvZCpM9peWMZB1sda7#hOEBZCeLTeFyWhjdjratpnFktJ7KZZ4H#UNOULUS8Rb5ALyGx2mCk1WeTuE3foXq6#1EAK88r6ku3V33chcxMjOwQiHgVSm4vQ#9Xf4E4gr4vLSegU2gIZyyzaHfaRdeYTH#6KNljcGZCTDMkg3HIU6fV5EIEqtTl7Y7#0T01nVDN1Zac0k5q0aDrn55m4M77dL8J#cx2eaUia05Tanm5XqxiYDqlVCwNMWbjo#7n29qtWPfIAcmylz67Pw0VXl5jiWYC90#OF3hNeFLeHpP5bw1csBVpeO8K97FnD0l#RZ0KUY0EehoT6CM0XBiEYGvtT5dcqSus#0nx3ypPyyg1fElXMuDxJEBrOfIyxVz20#EM0VXWooT0AlmRXTSj4mBSfnL62deBMe#jOqj4wY5m0GNQBxDiwmaj0SIO2JSMy1f#M1swRnSIVZkjFnqWl4ma0bOZK40estja#1Yvo4LqWxboP9asSjQKd5T3UAA8okFeY#IHpJlz5Fpr7ZmB4mZ9bwU0EbULRW0BmL#0iSbKwkr56qonHHWb0gVK0gkmrmnQtbV#M5yovRrmaqmpkp9OwsaYddbCzWVf1thz#e0KmL10njkhTMMkVC1Q4Znh502U3DSkZ#LZKM0PQVU3whCJLy5Po0MgAfjPTLxTRr#mBJdTNM20Ky7lEWIpzLpITV2beygd6eg#qT0iN4XB03lwcULwxkluBYq36eHTsIQQ#5HNrRnHqWHPGcifoMeDKqv0IDf70o976#aCrb0irVIITI06OHH00GrRnKcnvo5ljc#zggQ2yB3ccoeaDWdqsPjTCy0EAdRlmWt
+Content-Length: 807
+
+<?xml version="1.0" encoding="UTF-8"?><response><rsan>e9a69b8c98fe246bb7a4367b25bec7cddfbda2404826751ce618806717ac45c453e778b692b20e158ce5126a4d3966a1711cd6b3d3d7d92031cd4929083f24f1e93989148099dc8812b31aa8aceca803693b89d1c9793dd8482dec499a1e2fb2fb5fafbfce6a18724a91e828820e8792bee546643083a60679bb16eda695238635623cb7ff9ca90156c5ab4448e11be4444711b7e823d0ef4b2cdc19a56fe09894abdcf802a211c295fa544cdbca132ab33bed620a5ff85870532b7809c67309ccb10d60e5966d9a87c863f430cc834b52962afb0822fdf4d818e7baa863182367521597ff64f2030ace988f20931f333ed81d18c0b8fe0dc6099aef74375ea7</rsan><rsae>010001</rsae><serversignature>af44f9f4f6f7fffb3649f265ecfc307065e7a4177209a824e5cab960e561f488</serversignature><rsapubkeysignature>847d277a43c79133183a6dddd95e78616db7b8ec485f6c61b5b38394749d2d8b</rsapubkeysignature></response>
+
+
+
+
+
+
+
+
+GET /api/user/state-login HTTP/1.1
+Host: 192.168.9.1
+Accept: */*
+X-Requested-With: XMLHttpRequest
+_ResponseSource: Broswer
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
+Referer: http://192.168.9.1/html/home.html
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: SessionID=ZhqkscDsixEnhDwgx51L0NnF0ItKRFQzZR0okx4Yd7zFMZZjKx0JvAcJaxD0HncY0XKa1YGM7vaY5oYL7f7zSFD1Di0fvca0LprEb8aQCQ5EVgGElTQHJxNWRmPHa3pq
+Connection: close
+
+HTTP/1.1 200 OK
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Content-Type: text/html
+X-Download-Options: noopen
+X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-eval'
+X-Content-Type-Options: nosniff
+Date: Thu, 17 Dec 2020 00:58:09 GMT
+Connection: Keep-Alive
+Content-Language: en
+Content-Length: 351
+
+<?xml version="1.0" encoding="UTF-8"?><response><userlevel>2</userlevel><firstlogin>1</firstlogin><Username>admin</Username><rsapadingtype>1</rsapadingtype><extern_password_type>1</extern_password_type><State>0</State><password_type>4</password_type><history_login_flag>0</history_login_flag><wifipwdsamewithwebpwd>0</wifipwdsamewithwebpwd></response>
+
+#################LOGIN END############
+
+
+
+
+
+
+
+GET /api/dialup/mobile-dataswitch HTTP/1.1
+Host: 192.168.9.1
+Accept: */*
+X-Requested-With: XMLHttpRequest
+_ResponseSource: Broswer
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
+Referer: http://192.168.9.1/html/home.html
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: SessionID=ZhqkscDsixEnhDwgx51L0NnF0ItKRFQzZR0okx4Yd7zFMZZjKx0JvAcJaxD0HncY0XKa1YGM7vaY5oYL7f7zSFD1Di0fvca0LprEb8aQCQ5EVgGElTQHJxNWRmPHa3pq
+Connection: close
+
+HTTP/1.1 200 OK
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Content-Type: text/html
+X-Download-Options: noopen
+X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-eval'
+X-Content-Type-Options: nosniff
+Connection: Keep-Alive
+Content-Length: 85
+
+<?xml version="1.0" encoding="UTF-8"?><response><dataswitch>1</dataswitch></response>
+
+
+
+
+
+
+
+
+
+##########Logged out#############
+GET /api/user/state-login HTTP/1.1
+Host: 192.168.9.1
+Accept: */*
+X-Requested-With: XMLHttpRequest
+_ResponseSource: Broswer
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
+Referer: http://192.168.9.1/html/home.html
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: SessionID=G0mPd44cAjTJvo3uBzL0GLym9QurLrm8B040RGgr99uCBbr90EXYXg6cFzQpL1KgUPn0gyjvEX5Z8XxGtvqZpW5AcTx7s0CINjJnrGVPln23VQ825qxVoGurbrhmfqtE
+Connection: close
+
+HTTP/1.1 200 OK
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Content-Type: text/html
+X-Download-Options: noopen
+X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-eval'
+X-Content-Type-Options: nosniff
+Date: Thu, 17 Dec 2020 01:05:46 GMT
+Connection: Keep-Alive
+Content-Language: en
+Content-Length: 346
+
+<?xml version="1.0" encoding="UTF-8"?><response><userlevel></userlevel><firstlogin>1</firstlogin><State>-1</State><rsapadingtype>1</rsapadingtype><extern_password_type>1</extern_password_type><username></username><password_type>4</password_type><history_login_flag>0</history_login_flag><wifipwdsamewithwebpwd>0</wifipwdsamewithwebpwd></response>
+
+
+
+##################Re-login##################
+GET /api/webserver/token HTTP/1.1
+Host: 192.168.9.1
+Accept: */*
+X-Requested-With: XMLHttpRequest
+_ResponseSource: Broswer
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
+Referer: http://192.168.9.1/html/home.html
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: SessionID=G0mPd44cAjTJvo3uBzL0GLym9QurLrm8B040RGgr99uCBbr90EXYXg6cFzQpL1KgUPn0gyjvEX5Z8XxGtvqZpW5AcTx7s0CINjJnrGVPln23VQ825qxVoGurbrhmfqtE
+Connection: close
+
+HTTP/1.1 200 OK
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Content-Type: text/html
+X-Download-Options: noopen
+X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-eval'
+X-Content-Type-Options: nosniff
+Date: Thu, 17 Dec 2020 01:06:49 GMT
+Connection: Keep-Alive
+Content-Language: en
+Content-Length: 138
+
+<?xml version="1.0" encoding="UTF-8"?><response><token>L0D9hXc09pkqhTFcJhry16tF8gxchHZWZnnjQoibBuBrY0kCPMHP00t48K0yFPFR</token></response>
+
+
+
+
+POST /api/user/challenge_login HTTP/1.1
+Host: 192.168.9.1
+Content-Length: 186
+Accept: */*
+X-Requested-With: XMLHttpRequest
+_ResponseSource: Broswer
+__RequestVerificationToken: ZnnjQoibBuBrY0kCPMHP00t48K0yFPFR
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+Origin: http://192.168.9.1
+Referer: http://192.168.9.1/html/home.html
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: SessionID=G0mPd44cAjTJvo3uBzL0GLym9QurLrm8B040RGgr99uCBbr90EXYXg6cFzQpL1KgUPn0gyjvEX5Z8XxGtvqZpW5AcTx7s0CINjJnrGVPln23VQ825qxVoGurbrhmfqtE
+Connection: close
+
+<?xml version="1.0" encoding="UTF-8"?><request><username>admin</username><firstnonce>5f959a38b8e795f468169a819fe43c056931683532fb0ddc8f7653f4cc363664</firstnonce><mode>1</mode></request>
+
+
+HTTP/1.1 200 OK
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Content-Type: text/html
+X-Download-Options: noopen
+X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-eval'
+X-Content-Type-Options: nosniff
+__RequestVerificationToken: zQFgG6asShXrcQ7Ia5cKjg4lGqQf2ijm
+Content-Length: 337
+
+<?xml version="1.0" encoding="UTF-8"?><response><iterations>100</iterations><servernonce>5f959a38b8e795f468169a819fe43c056931683532fb0ddc8f7653f4cc363664aD4lT7YWSinqKhKfdPm6S22OBwfA5J0z</servernonce><modeselected>1</modeselected><salt>2ceb7a1e6eff3d0cafc2b82488fe802e6c4a64831637404f9fda1e6a6f027ba0</salt><newType>0</newType></response>
+
+
+
+
+
+
+
+POST /api/user/authentication_login HTTP/1.1
+Host: 192.168.9.1
+Content-Length: 269
+Accept: */*
+X-Requested-With: XMLHttpRequest
+_ResponseSource: Broswer
+__RequestVerificationToken: zQFgG6asShXrcQ7Ia5cKjg4lGqQf2ijm
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+Origin: http://192.168.9.1
+Referer: http://192.168.9.1/html/home.html
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: SessionID=G0mPd44cAjTJvo3uBzL0GLym9QurLrm8B040RGgr99uCBbr90EXYXg6cFzQpL1KgUPn0gyjvEX5Z8XxGtvqZpW5AcTx7s0CINjJnrGVPln23VQ825qxVoGurbrhmfqtE
+Connection: close
+
+<?xml version="1.0" encoding="UTF-8"?><request><clientproof>c11ebdeb34b520103383514a92865529776c7f74dec29366dfe1cb652403a034</clientproof><finalnonce>5f959a38b8e795f468169a819fe43c056931683532fb0ddc8f7653f4cc363664aD4lT7YWSinqKhKfdPm6S22OBwfA5J0z</finalnonce></request>
+
+
+HTTP/1.1 200 OK
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Content-Type: text/html
+X-Download-Options: noopen
+X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-eval'
+X-Content-Type-Options: nosniff
+Set-Cookie: SessionID=49Srt6KcG3ABvtqLwe4pc8wh0V21F0snXrBIN7pNL0dnjeb6BgTuj4GkxW0Z84eD1poJV9WquMPzjOwN4E6d08RS4bY476a409Ihz3TexXymWU9LpMFy3oZvu3KxTLc2; path=/; HttpOnly;
+__RequestVerificationTokenone: HXD4a0IUaZuLMVyBLB8akT0EYh4ueHub
+__RequestVerificationTokentwo: d3pchujqF0ct7Vi9TotfcIAP0NUWKZqG
+__RequestVerificationToken: HXD4a0IUaZuLMVyBLB8akT0EYh4ueHub#d3pchujqF0ct7Vi9TotfcIAP0NUWKZqG#c0ezbNt0S0iIxW4Eye0s9aE84szGuJ0b#kivDVBzVQ6c0ss38raGgnMFaF5dwmL7q#naiOsuZSlMekR240VdZ00RYPHRy1C5Yo#NoxBsDN0T5xAz5Lya2GUk5XWrKKRIY3w#zjExmLcajHH5sCUxlb93KGLLTbPjnuhD#8D1GFg1Jrkln4mj3q5C08rU4QlRNHn8Z#vlXJfFxylEiOGMxMfvDOFMazopq0esPO#dEM706y5LDZLKdtuMEZCzm2aH0PXPy78#qH68eMQEwbyUH1jGXg46ZNkuOqlf9p9j#0krcn6vKxEtl9oxful0eCPHLO7w8hye0#8WFAqIfYwVyXcnCk6NFIJhmVFAwegiMT#u00Pe1gXb57g4cHRGbelTp0t3vNS5Mrp#4ucMd4tS03xA5YovlXJTFk0W882YWMUC#T0Zht8kQ1RVEYnkl0YiECvWhII8PS81w#ZoiGLgjl080JcsoZ8x0Y77KEYwlJJm6D#7021zmRJzOVVb1DEf08SwEuz2eM3jYih#GDaXq5otbkrwO9PcGRrHvQsqhSPeMxAJ#2Fr766p5GBvqwywPqGxCPXhWCVpb0Z0W#OjRgoItgKVjsTzSPJRBaIFdQSqqr9iEm#0V7YgLkzeypiksS5LXl6Rj01Cs09sGQ8#T7anw9w8cqUz2sbNa35F7mqELS0a7z7s#LNXPUnH1zTaJqUONm1lUWPqUVJQXXEnY#gDeoN80x0269mZjrX134H8hk37cq5CKE#uzkCrvUaqD0iod1EgR6wffaLZ4UXXRgj#Sg9uOWvuXg3vYXPgrOfaH9t3cL724bRW#GCjInq8N7HxeMTS7mGFndjhGr0l9Ktlb#0p1Cp6vzMOaax9uyBR5n9bfxnFYZ6CLV#SVMmxPEXGOnZrvhz0xRfmSWi86ssJ6b0#vUVmEhz06dNVplanzCHdEfIKf20yUAI5#o5QuSjYteS4mjOxii8An07jTZJ5HH1cp
+Content-Length: 807
+
+<?xml version="1.0" encoding="UTF-8"?><response><rsan>e9a69b8c98fe246bb7a4367b25bec7cddfbda2404826751ce618806717ac45c453e778b692b20e158ce5126a4d3966a1711cd6b3d3d7d92031cd4929083f24f1e93989148099dc8812b31aa8aceca803693b89d1c9793dd8482dec499a1e2fb2fb5fafbfce6a18724a91e828820e8792bee546643083a60679bb16eda695238635623cb7ff9ca90156c5ab4448e11be4444711b7e823d0ef4b2cdc19a56fe09894abdcf802a211c295fa544cdbca132ab33bed620a5ff85870532b7809c67309ccb10d60e5966d9a87c863f430cc834b52962afb0822fdf4d818e7baa863182367521597ff64f2030ace988f20931f333ed81d18c0b8fe0dc6099aef74375ea7</rsan><rsae>010001</rsae><serversignature>3f885376d7dd0560740e951b32ab325a68089339862050a73cbfa3adbbe8c706</serversignature><rsapubkeysignature>847d277a43c79133183a6dddd95e78616db7b8ec485f6c61b5b38394749d2d8b</rsapubkeysignature></response>
+
+
+
+
+GET /api/user/state-login HTTP/1.1
+Host: 192.168.9.1
+Accept: */*
+X-Requested-With: XMLHttpRequest
+_ResponseSource: Broswer
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
+Referer: http://192.168.9.1/html/home.html
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: SessionID=49Srt6KcG3ABvtqLwe4pc8wh0V21F0snXrBIN7pNL0dnjeb6BgTuj4GkxW0Z84eD1poJV9WquMPzjOwN4E6d08RS4bY476a409Ihz3TexXymWU9LpMFy3oZvu3KxTLc2
+Connection: close
+
+HTTP/1.1 200 OK
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Content-Type: text/html
+X-Download-Options: noopen
+X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-eval'
+X-Content-Type-Options: nosniff
+Date: Thu, 17 Dec 2020 01:06:54 GMT
+Connection: Keep-Alive
+Content-Language: en
+Content-Length: 351
+
+<?xml version="1.0" encoding="UTF-8"?><response><userlevel>2</userlevel><firstlogin>1</firstlogin><Username>admin</Username><rsapadingtype>1</rsapadingtype><extern_password_type>1</extern_password_type><State>0</State><password_type>4</password_type><history_login_flag>0</history_login_flag><wifipwdsamewithwebpwd>0</wifipwdsamewithwebpwd></response>
+
+
+############End re-login##########
+
+
+
+
+
+
+
+
+
+###################connection disconnect#############
+###ON####
+POST /api/dialup/mobile-dataswitch HTTP/1.1
+Host: 192.168.9.1
+Content-Length: 83
+Accept: */*
+X-Requested-With: XMLHttpRequest
+_ResponseSource: Broswer
+__RequestVerificationToken: Q68z6KWg8qN9AFNxn6MUxdGzVxCZjOwx
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+Origin: http://192.168.9.1
+Referer: http://192.168.9.1/html/mobileconnection.html
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: SessionID=49Srt6KcG3ABvtqLwe4pc8wh0V21F0snXrBIN7pNL0dnjeb6BgTuj4GkxW0Z84eD1poJV9WquMPzjOwN4E6d08RS4bY476a409Ihz3TexXymWU9LpMFy3oZvu3KxTLc2
+Connection: close
+
+<?xml version="1.0" encoding="UTF-8"?><request><dataswitch>1</dataswitch></request>
+
+
+HTTP/1.1 200 OK
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Content-Type: text/html
+X-Download-Options: noopen
+X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-eval'
+X-Content-Type-Options: nosniff
+__RequestVerificationToken: obK7W1FaBo0XRn5VEf1AH0rihU0OziTa
+Connection: Keep-Alive
+Content-Length: 61
+
+<?xml version="1.0" encoding="UTF-8"?><response>OK</response>
+
+
+###OFF####
+POST /api/dialup/mobile-dataswitch HTTP/1.1
+Host: 192.168.9.1
+Content-Length: 83
+Accept: */*
+X-Requested-With: XMLHttpRequest
+_ResponseSource: Broswer
+__RequestVerificationToken: YlDxH3D3dzRMjzvWc0mTuZ61NLcVZ1gB
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+Origin: http://192.168.9.1
+Referer: http://192.168.9.1/html/mobileconnection.html
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: SessionID=49Srt6KcG3ABvtqLwe4pc8wh0V21F0snXrBIN7pNL0dnjeb6BgTuj4GkxW0Z84eD1poJV9WquMPzjOwN4E6d08RS4bY476a409Ihz3TexXymWU9LpMFy3oZvu3KxTLc2
+Connection: close
+
+<?xml version="1.0" encoding="UTF-8"?><request><dataswitch>0</dataswitch></request>
+
+HTTP/1.1 200 OK
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Content-Type: text/html
+X-Download-Options: noopen
+X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-eval'
+X-Content-Type-Options: nosniff
+__RequestVerificationToken: Skl7GXO7KlroWv6CMAXpHCTgiX1ECfr5
+Connection: Keep-Alive
+Content-Length: 61
+
+<?xml version="1.0" encoding="UTF-8"?><response>OK</response>
+
+
+
+
+
+
+
+
+
+
+##################3G 4G################
+##############3G##################
+POST /api/net/net-mode HTTP/1.1
+Host: 192.168.9.1
+Content-Length: 156
+Accept: */*
+X-Requested-With: XMLHttpRequest
+_ResponseSource: Broswer
+__RequestVerificationToken: z0keS7kyxQXORb0qoDWMCIJ1MX0S5tuf
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+Origin: http://192.168.9.1
+Referer: http://192.168.9.1/html/mobilenetworksettings.html
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: SessionID=49Srt6KcG3ABvtqLwe4pc8wh0V21F0snXrBIN7pNL0dnjeb6BgTuj4GkxW0Z84eD1poJV9WquMPzjOwN4E6d08RS4bY476a409Ihz3TexXymWU9LpMFy3oZvu3KxTLc2
+Connection: close
+
+<?xml version="1.0" encoding="UTF-8"?><request><NetworkMode>02</NetworkMode><NetworkBand>3FFFFFFF</NetworkBand><LTEBand>7FFFFFFFFFFFFFFF</LTEBand></request>
+
+
+HTTP/1.1 200 OK
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Content-Type: text/html
+X-Download-Options: noopen
+X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-eval'
+X-Content-Type-Options: nosniff
+__RequestVerificationToken: oeL1SxvydamgA0H8uiMCaPNgOZ7YmsBt
+Connection: Keep-Alive
+Content-Length: 65
+
+<?xml version="1.0" encoding="UTF-8"?>
+<response>OK</response>
+
+
+
+############4G################
+POST /api/net/net-mode HTTP/1.1
+Host: 192.168.9.1
+Content-Length: 156
+Accept: */*
+X-Requested-With: XMLHttpRequest
+_ResponseSource: Broswer
+__RequestVerificationToken: oeL1SxvydamgA0H8uiMCaPNgOZ7YmsBt
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+Origin: http://192.168.9.1
+Referer: http://192.168.9.1/html/mobilenetworksettings.html
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: SessionID=49Srt6KcG3ABvtqLwe4pc8wh0V21F0snXrBIN7pNL0dnjeb6BgTuj4GkxW0Z84eD1poJV9WquMPzjOwN4E6d08RS4bY476a409Ihz3TexXymWU9LpMFy3oZvu3KxTLc2
+Connection: close
+
+<?xml version="1.0" encoding="UTF-8"?><request><NetworkMode>03</NetworkMode><NetworkBand>3FFFFFFF</NetworkBand><LTEBand>7FFFFFFFFFFFFFFF</LTEBand></request>
+
+HTTP/1.1 200 OK
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Content-Type: text/html
+X-Download-Options: noopen
+X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-eval'
+X-Content-Type-Options: nosniff
+__RequestVerificationToken: 66mu08RaxCHrvPf4fdcfNaK2Cozr0TNe
+Connection: Keep-Alive
+Content-Length: 65
+
+<?xml version="1.0" encoding="UTF-8"?>
+<response>OK</response>
+
+##################################################################
+
+
+
+
+
+
+
+
+
+###############Device Info##################
+GET /api/device/information HTTP/1.1
+Host: 192.168.9.1
+Accept: */*
+X-Requested-With: XMLHttpRequest
+_ResponseSource: Broswer
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
+Referer: http://192.168.9.1/html/deviceinformation.html
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: SessionID=49Srt6KcG3ABvtqLwe4pc8wh0V21F0snXrBIN7pNL0dnjeb6BgTuj4GkxW0Z84eD1poJV9WquMPzjOwN4E6d08RS4bY476a409Ihz3TexXymWU9LpMFy3oZvu3KxTLc2
+Connection: close
+
+HTTP/1.1 200 OK
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Content-Type: text/html
+X-Download-Options: noopen
+X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-eval'
+X-Content-Type-Options: nosniff
+Connection: Keep-Alive
+Content-Length: 806
+
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+<DeviceName>E8372h-155</DeviceName>
+<SerialNumber>3YK7S20701001297</SerialNumber>
+<Imei>868150041367339</Imei>
+<Imsi>502181146882437</Imsi>
+<Iccid>8960181191468924373</Iccid>
+<Msisdn>+601111881464</Msisdn>
+<HardwareVersion>CL2E8372HM</HardwareVersion>
+<SoftwareVersion>21.335.05.00.00</SoftwareVersion>
+<WebUIVersion>21.100.52.01.03</WebUIVersion>
+<MacAddress1>78:85:F4:9E:43:B4</MacAddress1>
+<MacAddress2></MacAddress2>
+<WanIPAddress></WanIPAddress>
+<wan_dns_address></wan_dns_address>
+<WanIPv6Address></WanIPv6Address>
+<wan_ipv6_dns_address></wan_ipv6_dns_address>
+<ProductFamily>LTE</ProductFamily>
+<Classify>mobile-wifi</Classify>
+<supportmode>LTE|WCDMA|GSM</supportmode>
+<workmode>LTE</workmode>
+<submask></submask>
+</response>
+
+
+
+
+
+
+
+
+
+
+####################Reboot#################
+POST /api/device/control HTTP/1.1
+Host: 192.168.9.1
+Content-Length: 77
+Accept: */*
+X-Requested-With: XMLHttpRequest
+_ResponseSource: Broswer
+__RequestVerificationToken: 0gYJQq2Cap7lVk0ypV63yP6Fg1AX9qvL
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+Origin: http://192.168.9.1
+Referer: http://192.168.9.1/html/reboot.html
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: SessionID=49Srt6KcG3ABvtqLwe4pc8wh0V21F0snXrBIN7pNL0dnjeb6BgTuj4GkxW0Z84eD1poJV9WquMPzjOwN4E6d08RS4bY476a409Ihz3TexXymWU9LpMFy3oZvu3KxTLc2
+Connection: close
+
+<?xml version="1.0" encoding="UTF-8"?><request><Control>1</Control></request>
+
+
+HTTP/1.1 200 OK
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Content-Type: text/html
+X-Download-Options: noopen
+X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-eval'
+X-Content-Type-Options: nosniff
+__RequestVerificationToken: tjS8twQRNrKXF3dcTmTq0Vuq0UyADxsT
+Connection: Keep-Alive
+Content-Length: 65
+
+<?xml version="1.0" encoding="UTF-8"?>
+<response>OK</response>
+
+
+
+
+
+
+
+
+
+
+
+############Change IP#############
+GET /api/dhcp/settings HTTP/1.1
+Host: 192.168.8.1
+Accept: */*
+X-Requested-With: XMLHttpRequest
+_ResponseSource: Broswer
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36
+Referer: http://192.168.8.1/html/content.html
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: SessionID=29hmtlUaVFva9Rmva6QHWQtSDSo4C0Ug00jNhYFzIq9RFigWhBhxVe0Q0BZxytw3J0U0IwsmSAzQ8iCssgJkYMbbPNJO8VJiIBikTwTAZSbmbECY2R3uXNWGSqVnF5Z0
+Connection: close
+
+HTTP/1.1 200 OK
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Content-Type: text/html
+X-Download-Options: noopen
+X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-eval'
+X-Content-Type-Options: nosniff
+Date: Fri, 18 Dec 2020 11:40:33 GMT
+Connection: Keep-Alive
+Content-Language: en
+Content-Length: 491
+
+<?xml version="1.0" encoding="UTF-8"?><response><DnsStatus>1</DnsStatus><DhcpStartIPAddress>192.168.8.100</DhcpStartIPAddress><DhcpIPAddress>192.168.8.1</DhcpIPAddress><accessipaddress></accessipaddress><homeurl>www.huaweimobilewifi.com</homeurl><DhcpStatus>1</DhcpStatus><DhcpLanNetmask>255.255.255.0</DhcpLanNetmask><SecondaryDns>192.168.8.1</SecondaryDns><PrimaryDns>192.168.8.1</PrimaryDns><DhcpEndIPAddress>192.168.8.200</DhcpEndIPAddress><DhcpLeaseTime>86400</DhcpLeaseTime></response>
+
+
+
+
+
+POST /api/dhcp/settings HTTP/1.1
+Host: 192.168.8.1
+Content-Length: 489
+Accept: */*
+X-Requested-With: XMLHttpRequest
+_ResponseSource: Broswer
+__RequestVerificationToken: QZ30iQrZXsJgVXMhw612cCWY9eIYI4tl
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8;
+Origin: http://192.168.8.1
+Referer: http://192.168.8.1/html/content.html
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: SessionID=29hmtlUaVFva9Rmva6QHWQtSDSo4C0Ug00jNhYFzIq9RFigWhBhxVe0Q0BZxytw3J0U0IwsmSAzQ8iCssgJkYMbbPNJO8VJiIBikTwTAZSbmbECY2R3uXNWGSqVnF5Z0
+Connection: close
+
+<?xml version="1.0" encoding="UTF-8"?><request><DnsStatus>1</DnsStatus><DhcpStartIPAddress>192.168.9.100</DhcpStartIPAddress><DhcpIPAddress>192.168.9.1</DhcpIPAddress><accessipaddress></accessipaddress><homeurl>www.huaweimobilewifi.com</homeurl><DhcpStatus>1</DhcpStatus><DhcpLanNetmask>255.255.255.0</DhcpLanNetmask><SecondaryDns>192.168.9.1</SecondaryDns><PrimaryDns>192.168.9.1</PrimaryDns><DhcpEndIPAddress>192.168.9.200</DhcpEndIPAddress><DhcpLeaseTime>86400</DhcpLeaseTime></request>
+
+
+

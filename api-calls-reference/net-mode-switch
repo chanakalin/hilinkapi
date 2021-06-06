@@ -1,0 +1,172 @@
+http://192.168.10.1/config/network/networkmode.xml
+GET http://192.168.10.1/config/network/networkmode.xml HTTP/1.1
+Host: 192.168.10.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+_ResponseSource: Broswer
+X-Requested-With: XMLHttpRequest
+Connection: keep-alive
+Referer: http://192.168.10.1/html/mobilenetworksettings.html
+Cookie: SessionID=8nXWhsEBisM29IJbMVubkj0f3Be6Iwj7Q9lRlBJB1pL16MNFMqROjaf0DmdEWbLRs3m3SNeYtmfv0T9dHpm6ahpjl5PpousURLKm6GoDpKiTT9WY1NwU0joDUU4J9Y04
+
+HTTP/1.1 200 OK
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Content-Type: text/xml
+X-Download-Options: noopen
+X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-eval'
+X-Content-Type-Options: nosniff
+Date: Tue, 16 Mar 2021 01:27:55 GMT
+Content-Language: en
+Content-Length: 269
+X-Cache: MISS from best4gproxy.com
+X-Cache-Lookup: MISS from best4gproxy.com:4001
+Connection: keep-alive
+
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+<NetworkModes>
+<Mode>0</Mode>
+<Mode>1</Mode>
+<Mode>2</Mode>
+</NetworkModes>
+<networkband_enable>0</networkband_enable>
+<networksearch>1</networksearch>
+<networksearchwhenconnected>1</networksearchwhenconnected>
+</config>
+
+
+
+
+
+
+http://192.168.10.1/api/net/net-mode
+GET http://192.168.10.1/api/net/net-mode HTTP/1.1
+Host: 192.168.10.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+_ResponseSource: Broswer
+X-Requested-With: XMLHttpRequest
+Connection: keep-alive
+Referer: http://192.168.10.1/html/mobilenetworksettings.html
+Cookie: SessionID=8nXWhsEBisM29IJbMVubkj0f3Be6Iwj7Q9lRlBJB1pL16MNFMqROjaf0DmdEWbLRs3m3SNeYtmfv0T9dHpm6ahpjl5PpousURLKm6GoDpKiTT9WY1NwU0joDUU4J9Y04
+
+HTTP/1.1 200 OK
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Content-Type: text/html
+X-Download-Options: noopen
+X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-eval'
+X-Content-Type-Options: nosniff
+Content-Length: 166
+Date: Mon, 15 Mar 2021 17:27:57 GMT
+X-Cache: MISS from best4gproxy.com
+X-Cache-Lookup: MISS from best4gproxy.com:4001
+Connection: keep-alive
+
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+<NetworkMode>00</NetworkMode>
+<NetworkBand>2000004400000</NetworkBand>
+<LTEBand>80800D5</LTEBand>
+</response>
+
+
+
+
+
+
+#Auto
+POST http://192.168.10.1/api/net/net-mode HTTP/1.1
+Host: 192.168.10.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+_ResponseSource: Broswer
+__RequestVerificationToken: hfRJ10lm0RGBdgDUg9k0a0iZUh881C0l
+X-Requested-With: XMLHttpRequest
+Content-Length: 152
+Origin: http://192.168.10.1
+Connection: keep-alive
+Referer: http://192.168.10.1/html/mobilenetworksettings.html
+Cookie: SessionID=8nXWhsEBisM29IJbMVubkj0f3Be6Iwj7Q9lRlBJB1pL16MNFMqROjaf0DmdEWbLRs3m3SNeYtmfv0T9dHpm6ahpjl5PpousURLKm6GoDpKiTT9WY1NwU0joDUU4J9Y04
+
+<?xml version="1.0" encoding="UTF-8"?><request><NetworkMode>00</NetworkMode><NetworkBand>2000004400000</NetworkBand><LTEBand>80800D5</LTEBand></request>
+
+
+
+#3G
+POST http://192.168.10.1/api/net/net-mode HTTP/1.1
+Host: 192.168.10.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+_ResponseSource: Broswer
+__RequestVerificationToken: GEcZb0K4jlVoYzhaLdsLW1O01Wlxmwg0
+X-Requested-With: XMLHttpRequest
+Content-Length: 161
+Origin: http://192.168.10.1
+Connection: keep-alive
+Referer: http://192.168.10.1/html/mobilenetworksettings.html
+Cookie: SessionID=8nXWhsEBisM29IJbMVubkj0f3Be6Iwj7Q9lRlBJB1pL16MNFMqROjaf0DmdEWbLRs3m3SNeYtmfv0T9dHpm6ahpjl5PpousURLKm6GoDpKiTT9WY1NwU0joDUU4J9Y04
+
+<?xml version="1.0" encoding="UTF-8"?><request><NetworkMode>02</NetworkMode><NetworkBand>2000004400000</NetworkBand><LTEBand>7FFFFFFFFFFFFFFF</LTEBand></request>
+
+
+
+
+#call netmode
+
+GET http://192.168.10.1/api/net/net-mode HTTP/1.1
+Host: 192.168.10.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+_ResponseSource: Broswer
+X-Requested-With: XMLHttpRequest
+Connection: keep-alive
+Referer: http://192.168.10.1/html/mobilenetworksettings.html
+Cookie: SessionID=8nXWhsEBisM29IJbMVubkj0f3Be6Iwj7Q9lRlBJB1pL16MNFMqROjaf0DmdEWbLRs3m3SNeYtmfv0T9dHpm6ahpjl5PpousURLKm6GoDpKiTT9WY1NwU0joDUU4J9Y04
+
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+<NetworkMode>03</NetworkMode>
+<NetworkBand>2000004400000</NetworkBand>
+<LTEBand>7FFFFFFFFFFFFFFF</LTEBand>
+</response>
+
+
+
+
+#4G
+POST http://192.168.10.1/api/net/net-mode HTTP/1.1
+Host: 192.168.10.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+_ResponseSource: Broswer
+__RequestVerificationToken: TtedaTc0Wdyag4Yi1a0D7A0069UTkr3n
+X-Requested-With: XMLHttpRequest
+Content-Length: 161
+Origin: http://192.168.10.1
+Connection: keep-alive
+Referer: http://192.168.10.1/html/mobilenetworksettings.html
+Cookie: SessionID=8nXWhsEBisM29IJbMVubkj0f3Be6Iwj7Q9lRlBJB1pL16MNFMqROjaf0DmdEWbLRs3m3SNeYtmfv0T9dHpm6ahpjl5PpousURLKm6GoDpKiTT9WY1NwU0joDUU4J9Y04
+
+<?xml version="1.0" encoding="UTF-8"?><request><NetworkMode>03</NetworkMode><NetworkBand>2000004400000</NetworkBand><LTEBand>7FFFFFFFFFFFFFFF</LTEBand></request>
+

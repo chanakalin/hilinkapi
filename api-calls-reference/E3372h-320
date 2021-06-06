@@ -1,0 +1,485 @@
+***Error codes***
+var ERROR_SYSTEM_NO_SUPPORT = 100002;
+var ERROR_SYSTEM_NO_RIGHTS = 100003;
+var ERROR_SYSTEM_BUSY = 100004;
+var ERROR_VOICE_BUSY = '120001';
+var ERROR_WRONG_TOKEN = 125001;
+var ERROR_WRONG_SESSION = 125002;
+var ERROR_WRONG_SESSION_TOKEN = 125003;
+var MACRO_SUPPORT_CHAR_MIN = 32;
+var MACRO_SUPPORT_CHAR_MAX = 126;
+Incorrect password = 108006
+Locked = 108007 (remainwaittime in /api/user/state-login [will be 0 once done])
+
+
+
+
+
+
+
+***********Index***************
+GET /html/index.html HTTP/1.1
+Host: 192.168.9.1
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Referer: http://192.168.9.1/
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: SessionID=9haNFymQDDbHDzyiNyR0solmVJRINgxhIrShLv1n7DPaa3jl0lXiaTIDks06T34iAIQHSg0UFxeC3ZweIdOeChIa9XtH2bRhblQQrh4x7d0fFxwawyCuJOkwwkw9bKRd
+Connection: close
+
+
+HTTP/1.1 200 OK
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Content-Type: text/html
+X-Download-Options: noopen
+X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-eval'
+X-Content-Type-Options: nosniff
+Date: Sat, 16 Jan 2021 00:03:30 GMT
+Connection: Keep-Alive
+Content-Language: en
+Content-Length: 23856
+
+<!DOCTYPE html>
+<html id="html">
+<head><meta name="csrf_token" content="FCHsS3wodcp6bmc9eb4dhX0Blx09AlrD">
+<meta name="csrf_token" content="2bTyYkTLctDTU4bgHanPiazY27uArS6U">
+ 
+ 
+ 
+ 
+***********Web server API token**********
+GET /api/webserver/token HTTP/1.1
+Host: 192.168.9.1
+Accept: */*
+X-Requested-With: XMLHttpRequest
+_ResponseSource: Broswer
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
+Referer: http://192.168.9.1/html/index.html
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: SessionID=4Pu435Itt056c6i4BbX0Zl0jd36SqtSJjFKYF3v7b2MU1BBt6GNE2Ol7C8LMPHirAwcM5N51rSYetSiOziq5P0QYYGIXHEi0wM94j2aSQ42z1roen0kgrHEhCFFbEiNY
+Connection: close
+
+HTTP/1.1 200 OK
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Content-Type: text/html
+X-Download-Options: noopen
+X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-eval'
+X-Content-Type-Options: nosniff
+Date: Sat, 16 Jan 2021 00:18:09 GMT
+Connection: Keep-Alive
+Content-Language: en
+Content-Length: 138
+
+<?xml version="1.0" encoding="UTF-8"?><response><token>v4fQDaMnFU00Rrp3cwBo4AjPW03yNzJqFswhXHMCjFQ7NaEfSpdnCOnUGwZZyeOE</token></response>
+
+
+
+
+
+***********Home****************
+GET /html/home.html HTTP/1.1
+
+        
+        
+        
+***************Device info - basic****************
+GET /api/device/basic_information HTTP/1.1
+GET /api/device/basic_information HTTP/1.1
+Host: 192.168.9.1
+Accept: */*
+X-Requested-With: XMLHttpRequest
+_ResponseSource: Broswer
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
+Referer: http://192.168.9.1/
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: SessionID=9haNFymQDDbHDzyiNyR0solmVJRINgxhIrShLv1n7DPaa3jl0lXiaTIDks06T34iAIQHSg0UFxeC3ZweIdOeChIa9XtH2bRhblQQrh4x7d0fFxwawyCuJOkwwkw9bKRd
+Connection: close
+
+
+HTTP/1.1 200 OK
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Content-Type: text/html
+X-Download-Options: noopen
+X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-eval'
+X-Content-Type-Options: nosniff
+Connection: Keep-Alive
+Content-Length: 357
+
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+<productfamily>LTE</productfamily>
+<classify>hilink</classify>
+<multimode>0</multimode>
+<restore_default_status>0</restore_default_status>
+<sim_save_pin_enable>0</sim_save_pin_enable>
+<devicename>E3372h-320</devicename>
+<spreadname_en></spreadname_en>
+<spreadname_zh></spreadname_zh>
+</response>
+
+
+
+
+*********Device info******************
+GET /api/device/information HTTP/1.1
+Host: 192.168.9.1
+Accept: */*
+X-Requested-With: XMLHttpRequest
+_ResponseSource: Broswer
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
+Referer: http://192.168.9.1/html/content.html
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: SessionID=7hnEfGSgZ3wYw6f0U5GnGHPBqnQKgQfndhUucjmUV53JlkEmSyp1UDNRF8XfAH4lh7bYbUId0n8PmMdWpi3HhAiD0tjUol08iNHb3GQgxcTHS46WahkxIy5AqsgFpIc8
+Connection: close
+
+HTTP/1.1 200 OK
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Content-Type: text/html
+X-Download-Options: noopen
+X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-eval'
+X-Content-Type-Options: nosniff
+Connection: Keep-Alive
+Content-Length: 1134
+
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+<DeviceName>E3372h-320</DeviceName>
+<SerialNumber>VQNDW20721000727</SerialNumber>
+<Imei>862329044546729</Imei>
+<Imsi>413027039748316</Imsi>
+<Iccid>8994029702208613160</Iccid>
+<Msisdn></Msisdn>
+<HardwareVersion>CL4E3372HM</HardwareVersion>
+<SoftwareVersion>10.0.3.1&#40;H192SP21C00&#41;</SoftwareVersion>
+<WebUIVersion>WEBUI 10.0.3.1&#40;W13SP12C03&#41;</WebUIVersion>
+<MacAddress1>00:10:20:30:40:50</MacAddress1>
+<MacAddress2></MacAddress2>
+<WanIPAddress>10.37.87.237</WanIPAddress>
+<wan_dns_address>202.69.205.1,202.69.205.2</wan_dns_address>
+<WanIPv6Address>2402:4000:11cd:1cc0:5a02:3ff:fe04:506</WanIPv6Address>
+<wan_ipv6_dns_address>2402:4000::1,2402:4000::2</wan_ipv6_dns_address>
+<ProductFamily>LTE</ProductFamily>
+<Classify>hilink</Classify>
+<supportmode>LTE|WCDMA|GSM</supportmode>
+<workmode>LTE</workmode>
+<submask>255.255.255.255</submask>
+<Mccmnc>41302</Mccmnc>
+<iniversion>E3372h-320-CUST 10.0.3.2&#40;C00&#41;</iniversion>
+<uptime>275</uptime>
+<ImeiSvn>05</ImeiSvn>
+<spreadname_en></spreadname_en>
+<spreadname_zh></spreadname_zh>
+</response>
+
+
+
+
+
+***************Status - WAN IP*****************
+GET /api/monitoring/status HTTP/1.1
+Host: 192.168.9.1
+Accept: */*
+X-Requested-With: XMLHttpRequest
+Update-Cookie: UpdateCookie
+_ResponseSource: Broswer
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
+Referer: http://192.168.9.1/html/index.html
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: SessionID=NaDXVk8ty0100wkbG0UqABpOWCeQ83UjQmH0pvK1s55NO4UPr2oyLAwOnF0KF1PUxxIKkVq0mCOhwJMJMtF6eT08kjvvLKAtCvFJWzllWAmYDzlK02zFzglIo0DoABQK
+Connection: close
+
+HTTP/1.1 200 OK
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Content-Type: text/html
+X-Download-Options: noopen
+X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-eval'
+X-Content-Type-Options: nosniff
+Connection: Keep-Alive
+Content-Length: 1193
+
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+<ConnectionStatus>901</ConnectionStatus>
+<WifiConnectionStatus></WifiConnectionStatus>
+<SignalStrength></SignalStrength>
+<SignalIcon>5</SignalIcon>
+<CurrentNetworkType>19</CurrentNetworkType>
+<CurrentServiceDomain>3</CurrentServiceDomain>
+<RoamingStatus>0</RoamingStatus>
+<BatteryStatus></BatteryStatus>
+<BatteryLevel></BatteryLevel>
+<BatteryPercent></BatteryPercent>
+<simlockStatus>0</simlockStatus>
+<PrimaryDns>202.69.205.2</PrimaryDns>
+<SecondaryDns>202.69.205.1</SecondaryDns>
+<wififrequence>0</wififrequence>
+<flymode>0</flymode>
+<PrimaryIPv6Dns>2402:4000::2</PrimaryIPv6Dns>
+<SecondaryIPv6Dns>2402:4000::1</SecondaryIPv6Dns>
+<CurrentWifiUser></CurrentWifiUser>
+<TotalWifiUser></TotalWifiUser>
+<currenttotalwifiuser>0</currenttotalwifiuser>
+<ServiceStatus>2</ServiceStatus>
+<SimStatus>1</SimStatus>
+<WifiStatus></WifiStatus>
+<CurrentNetworkTypeEx>101</CurrentNetworkTypeEx>
+<maxsignal>5</maxsignal>
+<wifiindooronly>0</wifiindooronly>
+<classify>hilink</classify>
+<usbup>0</usbup>
+<wifiswitchstatus>0</wifiswitchstatus>
+<WifiStatusExCustom>0</WifiStatusExCustom>
+<hvdcp_online>0</hvdcp_online>
+</response>
+
+
+
+
+
+
+***************DHCP settings**********
+GET /api/dhcp/settings HTTP/1.1
+
+
+
+
+
+***********Login state - login disabled***********
+GET /api/user/state-login HTTP/1.1
+Host: 192.168.9.1
+Accept: */*
+X-Requested-With: XMLHttpRequest
+_ResponseSource: Broswer
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
+Referer: http://192.168.9.1/
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: SessionID=9haNFymQDDbHDzyiNyR0solmVJRINgxhIrShLv1n7DPaa3jl0lXiaTIDks06T34iAIQHSg0UFxeC3ZweIdOeChIa9XtH2bRhblQQrh4x7d0fFxwawyCuJOkwwkw9bKRd
+Connection: close
+
+
+HTTP/1.1 200 OK
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Content-Type: text/html
+X-Download-Options: noopen
+X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-eval'
+X-Content-Type-Options: nosniff
+Date: Sat, 16 Jan 2021 00:02:59 GMT
+Connection: Keep-Alive
+Content-Language: en
+Content-Length: 474
+
+<?xml version="1.0" encoding="UTF-8"?><response><password_type>4</password_type><extern_password_type>1</extern_password_type><history_login_flag>0</history_login_flag><State>-1</State><lockstatus>0</lockstatus><password_rule>0</password_rule><accounts_number>1</accounts_number><rsapadingtype>1</rsapadingtype><remainwaittime>0</remainwaittime><wifipwdsamewithwebpwd>0</wifipwdsamewithwebpwd><username></username><firstlogin>0</firstlogin><userlevel></userlevel></response>
+
+
+
+***********Login state - login enabled - not logged***********
+GET /api/user/state-login HTTP/1.1
+GET /api/user/state-login HTTP/1.1
+Host: 192.168.9.1
+Accept: */*
+X-Requested-With: XMLHttpRequest
+_ResponseSource: Broswer
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
+Referer: http://192.168.9.1/
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: SessionID=rpowYkkVolnnDIcUAqz3dYt6HhLTnwlZdtT7EIlbFU5WLqDsuX7nyQBJLqFmiaYJyRYEd1A1UbmEzTSd7ta65Ii0ZNlLZcO5642lJegZcxbx0pd4yjFE2l0DDZbrXBbP
+Connection: close
+
+
+HTTP/1.1 200 OK
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Content-Type: text/html
+X-Download-Options: noopen
+X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-eval'
+X-Content-Type-Options: nosniff
+Date: Sat, 16 Jan 2021 00:12:17 GMT
+Connection: Keep-Alive
+Content-Language: en
+Content-Length: 474
+
+<?xml version="1.0" encoding="UTF-8"?><response><password_type>4</password_type><extern_password_type>1</extern_password_type><history_login_flag>0</history_login_flag><State>-1</State><lockstatus>0</lockstatus><password_rule>0</password_rule><accounts_number>1</accounts_number><rsapadingtype>1</rsapadingtype><remainwaittime>0</remainwaittime><wifipwdsamewithwebpwd>0</wifipwdsamewithwebpwd><username></username><firstlogin>1</firstlogin><userlevel></userlevel></response>
+
+
+
+
+***********Login state - login enabled - logged***********
+GET /api/user/state-login HTTP/1.1
+Host: 192.168.9.1
+Accept: */*
+X-Requested-With: XMLHttpRequest
+_ResponseSource: Broswer
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
+Referer: http://192.168.9.1/html/index.html
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: SessionID=UkoKVmFyU8c0Y2mmXc1pLKbXPpQVQC4p0gnCsOAHSgw9RWYPYjef30bHJQNLmMp9iHWDqbhQ2KKTFMpRCApgTP0QLAhOnYegHhoZUvkuXo5z0mniRix1CAyNU6Kf0XUq
+Connection: close
+
+HTTP/1.1 200 OK
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Content-Type: text/html
+X-Download-Options: noopen
+X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-eval'
+X-Content-Type-Options: nosniff
+Date: Sat, 16 Jan 2021 00:18:14 GMT
+Connection: Keep-Alive
+Content-Language: en
+Content-Length: 479
+
+<?xml version="1.0" encoding="UTF-8"?><response><password_type>4</password_type><extern_password_type>1</extern_password_type><history_login_flag>0</history_login_flag><State>0</State><lockstatus>0</lockstatus><password_rule>0</password_rule><accounts_number>1</accounts_number><rsapadingtype>1</rsapadingtype><remainwaittime>0</remainwaittime><wifipwdsamewithwebpwd>0</wifipwdsamewithwebpwd><Username>admin</Username><firstlogin>1</firstlogin><userlevel>2</userlevel></response>
+
+
+***************************************************************
+****************************DIFF*******************************
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+<password_type>4</password_type>
+<extern_password_type>1</extern_password_type>
+<history_login_flag>0</history_login_flag>
+<State>-1</State>
+<lockstatus>0</lockstatus>
+<password_rule>0</password_rule>
+<accounts_number>1</accounts_number>
+<rsapadingtype>1</rsapadingtype>
+<remainwaittime>0</remainwaittime>
+<wifipwdsamewithwebpwd>0</wifipwdsamewithwebpwd>
+<username></username>
+<firstlogin>0</firstlogin>
+<userlevel></userlevel>
+</response>
+
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+<password_type>4</password_type>
+<extern_password_type>1</extern_password_type>
+<history_login_flag>0</history_login_flag>
+<State>-1</State>
+<lockstatus>0</lockstatus>
+<password_rule>0</password_rule>
+<accounts_number>1</accounts_number>
+<rsapadingtype>1</rsapadingtype>
+<remainwaittime>0</remainwaittime>
+<wifipwdsamewithwebpwd>0</wifipwdsamewithwebpwd>
+<username></username>
+<firstlogin>1</firstlogin>
+<userlevel></userlevel>
+</response>
+
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+<password_type>4</password_type>
+<extern_password_type>1</extern_password_type>
+<history_login_flag>0</history_login_flag>
+<State>0</State>
+<lockstatus>0</lockstatus>
+<password_rule>0</password_rule>
+<accounts_number>1</accounts_number>
+<rsapadingtype>1</rsapadingtype>
+<remainwaittime>0</remainwaittime>
+<wifipwdsamewithwebpwd>0</wifipwdsamewithwebpwd>
+<Username>admin</Username>
+<firstlogin>1</firstlogin>
+<userlevel>2</userlevel>
+</response>
+***********************************************
+
+
+
+*************HiLink Login**********************
+*************Login not enabled*****************
+GET /api/user/hilink_login HTTP/1.1
+Host: 192.168.9.1
+Accept: */*
+X-Requested-With: XMLHttpRequest
+_ResponseSource: Broswer
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
+Referer: http://192.168.9.1/
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: SessionID=Qg3LGLSTEwuG5YR36D6XoPvcL0lpW6QD20DuN9mQZjDWmIAGIsleFAeMz5uLlljL5obpTU0d8w3gWOpB0IZT6Pi8ZnMiH0ZAGq3A3XBPaxHcX0bmnX4N4Y5Cf74ahoFH
+Connection: close
+
+HTTP/1.1 200 OK
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Content-Type: text/html
+X-Download-Options: noopen
+X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-eval'
+X-Content-Type-Options: nosniff
+Date: Sat, 16 Jan 2021 16:20:20 GMT
+Connection: Keep-Alive
+Content-Language: en
+Content-Length: 89
+
+<?xml version="1.0" encoding="UTF-8"?><response><hilink_login>0</hilink_login></response>
+
+
+
+*************Login enabled - not logged********
+GET /api/user/hilink_login HTTP/1.1
+Host: 192.168.9.1
+Accept: */*
+X-Requested-With: XMLHttpRequest
+_ResponseSource: Broswer
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
+Referer: http://192.168.9.1/
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: SessionID=oZ0c0CzkjGidQcjwbPaJVecbQwgmuKeaJbaNSXR7dg0V2wdEggRNfSv8RgkA9TGrUsPEO2LVdCqZYq7Bcoym0FXtlJWu30m3m0pcxYK0kta4cqQ0B60ybLlp3wUtkvEF
+Connection: close
+
+HTTP/1.1 200 OK
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Content-Type: text/html
+X-Download-Options: noopen
+X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-eval'
+X-Content-Type-Options: nosniff
+Date: Sat, 16 Jan 2021 16:11:37 GMT
+Connection: Keep-Alive
+Content-Language: en
+Content-Length: 89
+
+<?xml version="1.0" encoding="UTF-8"?><response><hilink_login>1</hilink_login></response>
+
+
+
+*************Login enabled - logged************
+
+
