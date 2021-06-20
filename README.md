@@ -61,7 +61,7 @@ python3 cythonNativeCompile.py build_ext --inplace
 | <img src="https://github.com/chanakalin/hilinkapi/blob/main/images/E3372h-153.png" width="250"> | <img src="https://github.com/chanakalin/hilinkapi/blob/main/images/E3372h-320.png" width="250"> | <img src="https://github.com/chanakalin/hilinkapi/blob/main/images/E8372h-320.png" width="250"> | 
 
 ## License ##
-This piece of software API is licensed under GNU GPLv2.<br/><br/>
+This piece of software API is licensed under MIT license.<br/><br/>
 Huawei and HiLink are registered trademarks/products of [Huawei Technologies Co. Ltd](https://www.huawei.com) and/or its parents organizations.
 
 
