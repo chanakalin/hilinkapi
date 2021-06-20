@@ -8,8 +8,8 @@ logging.basicConfig(filename="hilinkapitest.log", format='%(asctime)s --  %(name
 try:
     webUIArray = [
         #webui("E3372h-153", "192.168.18.1", "admin", "admin", logger=logging),
-        webui("E3372h-320", "192.168.8.1", "admin", "abcd@1234",logger=logging),
-        # webui("E8372h-320", "192.168.10.1", "admin", "admin",logger=logging),
+        #webui("E3372h-320", "192.168.8.1", "admin", "abcd@1234",logger=logging),
+         webui("E8372h-320", "192.168.10.1", "admin", "abcd@1234",logger=logging),
     ]
     
     for webUI in webUIArray:
@@ -18,9 +18,15 @@ try:
             webUI.start()
             #wait until validate the session
             while not webUI.getValidSession():
+                # check for active errors
+                if webUI.getActiveError() is not None:
+                    error=webUI.getActiveError()
+                    print(error)
+                    sleep(5)
+                #check for login wait time
                 if webUI.getLoginWaitTime() > 0:
                     print(f"Login wait time available = {webUI.getLoginWaitTime()} minutes")
-                    sleep(10)
+                    sleep(5)
             ########
             # query device info
             webUI.queryDeviceInfo()

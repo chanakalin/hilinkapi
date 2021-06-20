@@ -36,7 +36,7 @@ Have to add python source files into cythonNativeCompile.py
 ```python
 ext_modules = [
 ...
-Extension("webui",  ["webui.py"]),
+Extension("HiLinkAPI",  ["HiLinkAPI.py"]),
 ...
 ]
 ```

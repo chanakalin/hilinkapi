@@ -49,6 +49,23 @@ class webui(Thread):
     :type    password:    string, defaults to None
     :type    logger:    :class:`logging.Logger`, defaults to None
     """
+    
+    errorCodes = {
+        108001: "Wrong username",
+        108002: "Wrong password",
+        108003: "Already logged in",
+        108005: "Too many logins / login attempts",
+        108006: "Wrong username or password",
+        108007: "Login attempts over run",
+        108009: "Login in different devices",
+        108010: "Frequency login",
+        100002: "System not supported",
+        100003: "System has no rights",
+        100004: "System busy",
+        125001: "Wrong token",
+        125002: "Wrong session",
+        125003: "Wrong session token",
+        }
 
     def __init__(self, modemname, host, username=None, password=None, logger=None):
         """
@@ -90,6 +107,8 @@ class webui(Thread):
         self._validSession = False
         # login wait time
         self._loginWaitTime = 0
+        # active error code
+        self._activeErrorCode = 0
         # initialize thread stop
         self._stopped = True
         # thread stopped
@@ -341,14 +360,23 @@ class webui(Thread):
         This method will use to validate error responses
         """
         self.logger.error(responseDict)
-        # check for errors
+        # check for errors & if exist set as active error code
         if "error" in responseDict:
             try:
-                errCode = int(responseDict["error"]["code"])
-                print(f"Error code = {errCode}")
+                self._activeErrorCode = int(responseDict["error"]["code"])
+                if self._activeErrorCode in self.errorCodes:
+                    self.logger.error(f"{self._activeErrorCode} -- {self.errorCodes[self._activeErrorCode]}")
+                else:
+                    self.logger.error(f"Unidentified error code - {self._activeErrorCode}")
             except Exception as e:
                 self.logger.error("Error code extraction failed")
                 self.logger.error(e)
+                
+    def resetActiveErrorCode(self):
+        """
+        This method will reset active error code
+        """
+        self._activeErrorCode = 0
         
     def login_b64_sha256(self, data):
         """
@@ -390,6 +418,9 @@ class webui(Thread):
             self._passwordType = stateLogin['response']['password_type']
             self._loginWaitTime = int(stateLogin['response']['remainwaittime']) if 'remainwaittime' in stateLogin['response'] else 0
             # in response lockstatus=1 if locked
+            # update active error code if has a login wait time
+            if self._loginWaitTime > 0:
+                self._activeErrorCode = 108007
         else:
             self.logger.error("Invalid response while getting user login state")
         ###### Login state check end ########
@@ -442,6 +473,8 @@ class webui(Thread):
                         if "response" in loginResponse:
                             if loginResponse['response'] == "OK":
                                 self._validSession = True
+                                # reset if theres any active error
+                                self.resetActiveErrorCode()
                             else:
                                 self.sessionErrorCheck(loginResponse)
                                 self.logger.error(f"Login failed -- {response.text}")
@@ -523,6 +556,8 @@ class webui(Thread):
                             # validate login & session
                             if "response" in loginResponse:
                                 self._validSession = True
+                                # reset if theres any active error
+                                self.resetActiveErrorCode()
                             else:
                                 self.sessionErrorCheck(loginResponse)
                                 self.logger.error(f"Login failed -- {response.text}")
@@ -614,6 +649,8 @@ class webui(Thread):
                         self._webui = deviceInfo['response']['WebUIVersion']
                     # invalidate refresh
                     self._sessionRefreshed = False
+                    # reset if theres any active error
+                    self.resetActiveErrorCode()
                     # return success
                     return True
                 else:
@@ -669,6 +706,8 @@ class webui(Thread):
                         self._wanIP = wanIPInfo['response']['WanIPAddress']
                     # invalidate refresh
                     self._sessionRefreshed = False
+                    # reset if theres any active error
+                    self.resetActiveErrorCode()
                     # return success
                     return True
                 else:
@@ -716,6 +755,8 @@ class webui(Thread):
                     self._sessionRefreshed = False
                 # invalidate refresh
                 self._sessionRefreshed = False
+                # reset if theres any active error
+                self.resetActiveErrorCode()
                 # return success
                 return True
                 ####### query network info end ########
@@ -761,6 +802,29 @@ class webui(Thread):
         :rtype:    boolean    
         """
         return self._validSession
+    
+    def getActiveError(self):
+        """
+        This method will return if theres any active error code else none
+        
+        :return:   Return {"errorcode":<code>,"error":"<error message>"}
+        :rtype:    dictionary    
+        """
+        
+        error = None
+        if self._activeErrorCode > 0:
+            if self._activeErrorCode in self.errorCodes:
+                error = {
+                    "errorcode":self._activeErrorCode,
+                    "error":self.errorCodes[self._activeErrorCode]
+                }
+            else:
+                error = {
+                    "errorcode":self._activeErrorCode,
+                    "error":"Un-identified"
+                }
+        ###########
+        return error
 
     def getLoginWaitTime(self):
         """
@@ -896,6 +960,8 @@ class webui(Thread):
                     self.logger.info(f"Switched data connection status = {dataSwitch}")
                     # invalidate refresh
                     self._sessionRefreshed = False
+                    # reset if theres any active error
+                    self.resetActiveErrorCode()
                     # return success
                     return True
                 else:
@@ -970,6 +1036,8 @@ class webui(Thread):
                         self.logger.info(f"Switched network mode = {NetworkMode} {'LTE' if ltestatus else 'WCDMA'}")
                         # invalidate refresh
                         self._sessionRefreshed = False
+                        # reset if theres any active error
+                        self.resetActiveErrorCode()
                         # return success
                         return True
                     else:
