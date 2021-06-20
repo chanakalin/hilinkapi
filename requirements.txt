@@ -3,3 +3,4 @@ xmltodict
 beautifulsoup4
 uuid
 sphinx-autodoc-annotation
+sphinx_rtd_theme

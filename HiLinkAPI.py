@@ -1,4 +1,5 @@
 import logging
+from threading import Thread
 import requests
 import xmltodict
 import uuid
@@ -10,6 +11,7 @@ import time
 from binascii import hexlify
 from collections import OrderedDict
 from bs4 import BeautifulSoup
+from datetime import datetime
 
 
 class hilinkException(Exception):
@@ -31,7 +33,7 @@ class hilinkException(Exception):
         return "Huawei HLink API Error ({}) : {}".format(self.modemname, self.message)
 
 
-class webui:
+class webui(Thread):
     """
     This class facilitate to open, authenticate and operate functions of supported Huawei HiLink modems. 
     
@@ -47,6 +49,124 @@ class webui:
     :type    password:    string, defaults to None
     :type    logger:    :class:`logging.Logger`, defaults to None
     """
+    
+    errorCodes = {
+        108001: "Wrong username",
+        108002: "Wrong password",
+        108003: "Already logged in",
+        108005: "Too many logins / login attempts",
+        108006: "Wrong username or password",
+        108007: "Login attempts over run",
+        108009: "Login in different devices",
+        108010: "Frequency login",
+        100002: "System not supported",
+        100003: "System has no rights",
+        100004: "System busy",
+        125001: "Wrong token",
+        125002: "Wrong session",
+        125003: "Wrong session token",
+        }
+
+    def __init__(self, modemname, host, username=None, password=None, logger=None):
+        """
+        Initialize webui
+        """
+        self._modemname = modemname
+        self._host = host
+        # assign empty strings if none
+        self._username = username if username is not None else ""
+        self._password = password if password is not None else ""
+        # initialize logger if not provided
+        if logger is None:
+            self.logger = logging.getLogger()
+        else:
+            self.logger = logger
+        # build http host URL
+        self._httpHost = f"http://{self._host}"
+        # timeout for a HTTP call (seconds)
+        self._HTTPcallTimeOut = 10
+        # variables required for webui session
+        self._sessionId = None
+        self._RequestVerificationToken = None
+        # Authenticaion required or not
+        self._loginRequired = False
+        #### WebUI variables####
+        self._sessionId = None
+        self._RequestVerificationToken = None
+        self._deviceClassify = None
+        self._deviceName = None
+        self._loginState = False  # Logged in to the session or not
+        self._webuiversion = None  # Has to be 10 or 17/21
+        # in an operation or not
+        self._inOperation = False
+        # session refreshed after an operation
+        self._sessionRefreshed = False
+        # Last operation ended time
+        self._lastOperationEndedTime = None
+        # valid session or not (not logged in)
+        self._validSession = False
+        # login wait time
+        self._loginWaitTime = 0
+        # active error code
+        self._activeErrorCode = 0
+        # initialize thread stop
+        self._stopped = True
+        # thread stopped
+        self._isStopped = True
+        ###############################
+        # device info
+        self._deviceName = None
+        self._imei = None
+        self._serial = None
+        self._imsi = None
+        self._iccid = None
+        self._supportedModes = None
+        self._hwversion = None
+        self._swversion = None
+        self._webui = None
+        # connection info
+        self._workmode = None
+        self._wanIP = None
+        self._networkName = None
+        ######### Initialize ###########
+        
+    def start(self):
+        """
+        This method will start the thread. 
+        """
+        # initialize variables and webui
+        self._stopped = False
+        self._isStopped = False
+        self.initialize()
+        # Thread start
+        Thread.start(self)
+        
+    def stop(self):
+        """
+        This method will initialize thread stop. 
+        """
+        self._stopped = True
+    
+    def isStopped(self):
+        """
+        This method will return successfully stopped or not. 
+        
+        :return:    Return deinited or not
+        :rtype:    boolean
+        """
+        return self._isStopped
+        
+    def setCredentials(self, username, password):
+        """
+        This method will set/update username and password for authentication after initializing. 
+        
+        :param    username:     Username if authentication required
+        :param    password:     Password if authentication required
+        :type    username:    string, defaults to None
+        :type    password:    string, defaults to None
+        """
+        self._username = username
+        self._password = password
         
     def processHTTPHeaders(self, response):
         """
@@ -104,7 +224,7 @@ class webui:
             cookies = self.buildCookies()
         # request
         try:
-            _response = requests.get(f"{self._httpHost}{endpoint}", cookies=cookies, timeout=self._callTimeOut)
+            _response = requests.get(f"{self._httpHost}{endpoint}", cookies=cookies, timeout=self._HTTPcallTimeOut)
             self.processHTTPHeaders(_response)
             return _response
         except Exception as e:
@@ -132,19 +252,19 @@ class webui:
             cookies = self.buildCookies()
         # request
         try:
-            _response = requests.post(f"{self._httpHost}{endpoint}", data=postBody, cookies=cookies, headers=headers, timeout=self._callTimeOut)
+            _response = requests.post(f"{self._httpHost}{endpoint}", data=postBody, cookies=cookies, headers=headers, timeout=self._HTTPcallTimeOut)
             self.processHTTPHeaders(_response)
             return  _response
         except Exception as e:
             self.logger.error(e)
             raise hilinkException(self._modemname, f"Calling {self._httpHost}{endpoint} failed")
-    
+        
     def initialize(self):
         """      
         Calling this method will initialize API calls by
         
-        * Refresh session and retrieving a fresh *SessionID*
-        * Regenerate and request a new *__RequestVerificationToken*
+        * Initialize session and fetch *SessionID*
+        * Request initial *__RequestVerificationToken*
         * Query authentication required or not
         * Identify webUI version
         
@@ -154,7 +274,6 @@ class webui:
         self._webuiversion = None
         self._deviceClassify = None
         self._deviceName = None
-        self._loginRequired = None
         # Initialize session
         self.httpGet(endpoint="/")
         # get request verification token
@@ -206,47 +325,59 @@ class webui:
                 self._deviceClassify = deviceInfo['response']['classify']
                 self._deviceName = deviceInfo['response']['devicename']
             else:
+                self.sessionErrorCheck(deviceInfo)
                 raise hilinkException(self._modemname, "Failed to get device info")
         except Exception as e:
             self.logger.error(e)
             raise hilinkException(self._modemname, "Failed to get device info")
         ###############################################################
-        # Check for authentication required or not
-        if self._webuiversion == 17 or self._webuiversion == 21:  # WebUI version 17 or 21
-            try:
-                response = self.httpGet("/api/user/state-login")
-                stateLogin = xmltodict.parse(response.text)
-                if "response" in stateLogin:
-                    if int(stateLogin['response']['password_type']) == 0:
+        ################## Authentication required check ##############
+        # common API endpoint for webui version 10,17 & 21
+        try:
+            response = self.httpGet("/api/user/hilink_login")
+            hilinkLogin = xmltodict.parse(response.text)
+            if "response" in hilinkLogin:
+                if int(hilinkLogin['response']['hilink_login']) == 0:
+                    # wingles always comes with authentication even hilink_login==0
+                    if str(self._deviceClassify).upper() == "WINGLE":
+                        self._loginRequired = True
+                    else:
                         self._loginRequired = False
-                    elif int(stateLogin['response']['password_type']) == 4:
-                        self._loginRequired = True
-                else:
-                    raise hilinkException(self._modemname, "Invalid response while getting user login state")
-            except Exception as e:
-                self.logger.error(e)
-                raise hilinkException(self._modemname, "Failed to get user login state")
-        elif self._webuiversion == 10:  # WebUI version 10
+                elif int(hilinkLogin['response']['hilink_login']) == 1:
+                    self._loginRequired = True
+            else:
+                self.sessionErrorCheck(hilinkLogin)
+                raise hilinkException(self._modemname, "Invalid response while getting user hilink state")
+        except Exception as e:
+            self.logger.error(e)
+            raise hilinkException(self._modemname, "Failed to get user login state")   
+        #############Authentication required check end#################
+        # Initialize the thread
+        Thread.__init__(self)
+        
+    def sessionErrorCheck(self, responseDict):
+        """
+        This method will use to validate error responses
+        """
+        self.logger.error(responseDict)
+        # check for errors & if exist set as active error code
+        if "error" in responseDict:
             try:
-                response = self.httpGet("/api/user/hilink_login")
-                stateLogin = xmltodict.parse(response.text)
-                if "response" in stateLogin:
-                    if int(stateLogin['response']['hilink_login']) == 0:
-                        # wingles always comes with authentication even hilink_login==0
-                        if str(self._deviceClassify).upper() == "WINGLE":
-                            self._loginRequired = True
-                        else:
-                            self._loginRequired = False
-                    elif int(stateLogin['response']['hilink_login']) == 1:
-                        self._loginRequired = True
+                self._activeErrorCode = int(responseDict["error"]["code"])
+                if self._activeErrorCode in self.errorCodes:
+                    self.logger.error(f"{self._activeErrorCode} -- {self.errorCodes[self._activeErrorCode]}")
                 else:
-                    raise hilinkException(self._modemname, "Invalid response while getting user login state")
+                    self.logger.error(f"Unidentified error code - {self._activeErrorCode}")
             except Exception as e:
+                self.logger.error("Error code extraction failed")
                 self.logger.error(e)
-                raise hilinkException(self._modemname, "Failed to get user login state")
-        ###########################################################
-           
-
+                
+    def resetActiveErrorCode(self):
+        """
+        This method will reset active error code
+        """
+        self._activeErrorCode = 0
+        
     def login_b64_sha256(self, data):
         """
         This method will used to SHA256 hashing and base64 encoding for WebUI version 10.x.x authentication in :meth:`~login_WebUI10`.
@@ -262,258 +393,234 @@ class webui:
         hs256 = binascii.hexlify(dg)
         return base64.urlsafe_b64encode(hs256).decode('utf-8', 'ignore')
     
-    def login_WebUI10(self):
+    def validateSession(self):
         """
-        This method will call to authenticate webUI WebUI version 10.x.x.
+        This method will validate session
         
-        If got *Invalid Session Token (125003)* error re-initialization will execute by calling :meth:`~initialize`.
+        * Check if a valid authenticated session
+        * If authentication required will login
         
-        :raises:    :meth:`~hilinkException`
-        :return:    Return login/authentication is succeeded or failed
-        :rtype:    bool        
+        :return:    Return valid session or not
+        :rtype:    boolean
         """
-        try:
-            self.logger.debug(f"Login for WebUI version 10 - login count = {self._loginTryCount}")
-            # grab the verification token
-            self.logger.debug("Querying for token")
-            response = self.httpGet("/api/webserver/token")
-            tokenJson = xmltodict.parse(response.text)
-            self.logger.debug(response.text)
-            if "response" in tokenJson:
-                _tmpToken = tokenJson['response']['token']
-                self._RequestVerificationToken = _tmpToken[len(_tmpToken) - 32:len(_tmpToken)] 
-            # increase login count
-            self._loginTryCount += 1
-            self.logger.debug(f"Having session ID = {self._sessionId}")
-            self.logger.debug(f"Having request verification token = {self._RequestVerificationToken}")
-            # generate password value
-            password_value = self.login_b64_sha256(self._username + self.login_b64_sha256(self._password) + self._RequestVerificationToken)
-            # challenge login
-            client_nonce = uuid.uuid4().hex + uuid.uuid4().hex
-            # generate request XML body
-            xml_body = """
-            <?xml version="1.0" encoding="UTF-8"?>
-            <request>
-            <username>{}</username>
-            <firstnonce>{}</firstnonce>
-            <mode>1</mode>
-            </request>
-            """.format(self._username, client_nonce)
-            # challenge headers
-            headers = {
-                'X-Requested-With':'XMLHttpRequest',
-                '__RequestVerificationToken': self._RequestVerificationToken
-                }
-            # challenge_login
-            response = self.httpPost("/api/user/challenge_login", xml_body, cookies=None, headers=headers)
-            challangeDict = xmltodict.parse(response.text)
-            self.logger.debug("Login challangeDict")
-            # check for response
-            if 'response' in challangeDict:
-                salt = challangeDict['response']['salt']
-                server_nonce = challangeDict['response']['servernonce']
-                iterations = int(challangeDict['response']['iterations'])
-                # authenticate login
-                msg = "%s,%s,%s" % (client_nonce, server_nonce, server_nonce)
-                salted_pass = hashlib.pbkdf2_hmac('sha256', bytearray(self._password.encode('utf-8')), bytearray.fromhex(salt), iterations)
-                client_key = hmac.new(b'Client Key', msg=salted_pass, digestmod=hashlib.sha256)
-                stored_key = hashlib.sha256()
-                stored_key.update(client_key.digest())
-                signature = hmac.new(msg.encode('utf_8'), msg=stored_key.digest(), digestmod=hashlib.sha256)
-                client_key_digest = client_key.digest()
-                signature_digest = signature.digest()
-                client_proof = bytearray()
-                i = 0
-                while i < client_key.digest_size:
-                    val = ord(client_key_digest[i:i + 1]) ^ ord(signature_digest[i:i + 1])
-                    client_proof.append(val)
-                    i = i + 1
-                HexClientProof = hexlify(client_proof)
-                xml_body = """
-                <?xml version="1.0" encoding="UTF-8"?>
-                <request>
-                <clientproof>{}</clientproof>
-                <finalnonce>{}</finalnonce>
-                </request>
-                """.format(HexClientProof, server_nonce).replace("b\'", "").replace("\'", "")
-                # login headers
-                headers = {
-                    'X-Requested-With':'XMLHttpRequest',
-                    '__RequestVerificationToken': self._RequestVerificationToken
-                    }
-                response = self.httpPost("/api/user/authentication_login", xml_body, cookies=None, headers=headers)
-                loginResponse = xmltodict.parse(response.text)
-                self.logger.debug("Login authentication response")
-                self.logger.debug(loginResponse)
-                if 'error' in loginResponse:
-                    self.logger.error("Log in failed")
-                    return False
-                else:
-                    self._loginTryCount = 0
-                    self.logger.info("Log in successfully")
-                    return True
-            else:  # response error
-                self.logger.error("response error while getting salt")
-                self.logger.error(challangeDict)
-                if 'error' in challangeDict:
-                    if int(challangeDict['error']['code']) == 125003:  # invalid session token
-                        self.logger.debug(f"Got {challangeDict['error']['code']} and re-initializing")
-                        self.initialize()
-                else:
-                    return False
-        except Exception as e:
-            self.logger.error(e)
-            raise hilinkException(self._modemname, "Error while login WebUI10")
-
-    def login_WebUI17or21(self):
-        """
-        This method will call to authenticate webUI WebUI versions 17.x.x and 21.x.x.
-        
-        :raises:    :meth:`~hilinkException`
-        :return:    Return login/authentication is succeeded or failed
-        :rtype:    bool 
-        """
-        try:
-            self.logger.debug(f"Login for WebUI version 17 / 21 - login count = {self._loginTryCount}")
-            # increase login count
-            self._loginTryCount += 1
-            self.logger.debug(f"Having session ID = {self._sessionId}")
-            self.logger.debug(f"Having request verification token = {self._RequestVerificationToken}")
-            # generate password value
-            # base64encode(SHA256(name + base64encode(SHA256($('#password').val())) + g_requestVerificationToken[0]));
-            passwd_string = f"{self._password}"
-            s256 = hashlib.sha256()
-            s256.update(passwd_string.encode('utf-8'))
-            dg = s256.digest()
-            hs256 = binascii.hexlify(dg)
-            hassed_password = base64.urlsafe_b64encode(hs256).decode('utf-8', 'ignore')
-            s2562 = hashlib.sha256()
-            s2562.update(f"{self._username}{hassed_password}{self._RequestVerificationToken}".encode('utf-8'))
-            dg2 = s2562.digest()
-            hs2562 = binascii.hexlify(dg2)
-            hashed_username_password = base64.urlsafe_b64encode(hs2562).decode('utf-8', 'ignore')
-            xml_body = f"""
-            <?xml version="1.0" encoding="UTF-8"?>
-            <request>
-            <Username>{self._username}</Username>
-            <Password>{hashed_username_password}</Password>
-            <password_type>4</password_type>
-            </request>
-            """.replace("b\'", "").replace("\'", "")
-            # challenge headers
-            headers = {
-                'X-Requested-With':'XMLHttpRequest',
-                '__RequestVerificationToken': self._RequestVerificationToken
-                }
-            # challenge_login
-            response = self.httpPost("/api/user/login", xml_body, cookies=None, headers=headers)
-            loginResponse = xmltodict.parse(response.text)
-            self.logger.debug("Login execute")
-            self.logger.debug(loginResponse)
-            # check for response
-            if 'response' in loginResponse:
-                return True
-            else:  # response error
-                self.logger.error("response error while login")
-                return False
-        except Exception as e:
-            self.logger.error(e)
-            raise hilinkException(self._modemname, "Error while login WebUI17/21")
-            
-    def authenticate(self):
-        """
-        This method will check current session either authenticated or not.
-        
-        This method required to return **True** before calling any other method which manipulate a function on modem 
-        or query any API end point except :meth:`~initialize`.
-        
-        This method will authenticate if required or session expired by calling */api/user/state-login* API end point.
-        As per the WebUI version respective login method will be called (either :meth:`~login_WebUI10` or
-        :meth:`~login_WebUI17or21`) if authentication required.
-        
-        Error message returns in API calls will check using :meth:`~sessionErrorCheck`.
-        
-        :raises:    :meth:`~hilinkException`, Raise an exception if,
-        
-                        * *error* received from state-login API
-                        * Username and password not provided while authentication is required
-                        
-        :return:    Return current session is authenticated or not
-        :rtype:    bool 
-        """
-        if self._loginRequired == False:  # Login not required
-            return True
-        else:  # login required
-            response = self.httpGet("/api/user/state-login")
-            userStateResponse = xmltodict.parse(response.text)
-            # default not logged
-            userState = -1
-            # if has a valid response
-            if "response" in userStateResponse:
-                # get user state
-                if "State" in userStateResponse["response"]:
-                    if userStateResponse["response"]["State"] is not None:
-                        userState = int(userStateResponse["response"]["State"])
-                # Manipulate login
-                if userState == 0:  # active login
-                    self._loginTryCount = 0
-                    self.logger.debug(f"Active login found userState={userState}")
-                    # end by returning a true
-                    return True
-                else:  # no active login
-                    # check for max login retry count
-                    if(self._loginTryCount >= self._loginTryCountMax):
-                        # if max login retry count exceeded initialize and return False 
-                        self.logger.debug("Max login retry count exceeded and initializing")
-                        self.initialize()
-                        return False
-                    else:  # try for login
-                        if self._username is not None and self._password is not None:
-                            self.logger.debug("Try login")
-                            # login
-                            if self._webuiversion == 10:  # webUI version 10
-                                return self.login_WebUI10()
-                            elif self._webuiversion == 17 or self._webuiversion == 21:  # webUI version 17 or 21
-                                return self.login_WebUI17or21()
+        # wait if in an operation
+        while self._inOperation:
+            time.sleep(0.5)
+            #******fine tune the wait******
+        # update in an operation
+        self._inOperation = True
+        #####################################
+        ######### Login state check #########
+        response = self.httpGet("/api/user/state-login")
+        stateLogin = xmltodict.parse(response.text)
+        if "response" in stateLogin:
+            self._loginState = True if int(stateLogin['response']['State']) == 0 else False
+            self._passwordType = stateLogin['response']['password_type']
+            self._loginWaitTime = int(stateLogin['response']['remainwaittime']) if 'remainwaittime' in stateLogin['response'] else 0
+            # in response lockstatus=1 if locked
+            # update active error code if has a login wait time
+            if self._loginWaitTime > 0:
+                self._activeErrorCode = 108007
+        else:
+            self.logger.error("Invalid response while getting user login state")
+        ###### Login state check end ########
+        #####################################
+        ###### Login if required ############
+        # In webui 10 self._loginState is -1 even login not enabled so hilink_state check is also required
+        # print(f"Login required = {self._loginRequired} \t LoginState = {self._loginState} \t time = {datetime.now()}")
+        if not self._loginState and self._loginRequired:
+            # check for login wait time
+            if self._loginWaitTime <= 0:
+                # invalidate session
+                self._validSession = False
+                # check username and password have provided
+                if self._username is not None and self._password is not None:
+                    # login for webui 17 & 21
+                    if self._webuiversion in (17, 21):
+                        self.logger.debug(f"Login initiated fot WebUI version 17 & 21")
+                        self.logger.debug(f"Having session ID = {self._sessionId}")
+                        self.logger.debug(f"Having request verification token = {self._RequestVerificationToken}")
+                        # generate password value
+                        # base64encode(SHA256(name + base64encode(SHA256($('#password').val())) + g_requestVerificationToken[0]));
+                        passwd_string = f"{self._password}"
+                        s256 = hashlib.sha256()
+                        s256.update(passwd_string.encode('utf-8'))
+                        dg = s256.digest()
+                        hs256 = binascii.hexlify(dg)
+                        hassed_password = base64.urlsafe_b64encode(hs256).decode('utf-8', 'ignore')
+                        s2562 = hashlib.sha256()
+                        s2562.update(f"{self._username}{hassed_password}{self._RequestVerificationToken}".encode('utf-8'))
+                        dg2 = s2562.digest()
+                        hs2562 = binascii.hexlify(dg2)
+                        hashed_username_password = base64.urlsafe_b64encode(hs2562).decode('utf-8', 'ignore')
+                        xml_body = f"""
+                        <?xml version="1.0" encoding="UTF-8"?>
+                        <request>
+                        <Username>{self._username}</Username>
+                        <Password>{hashed_username_password}</Password>
+                        <password_type>{self._passwordType}</password_type>
+                        </request>
+                        """.replace("b\'", "").replace("\'", "")
+                        # challenge headers
+                        headers = {
+                            'X-Requested-With':'XMLHttpRequest',
+                            '__RequestVerificationToken': self._RequestVerificationToken
+                            }
+                        # challenge_login
+                        response = self.httpPost("/api/user/login", xml_body, cookies=None, headers=headers)
+                        loginResponse = xmltodict.parse(response.text)
+                        # validate login & session
+                        if "response" in loginResponse:
+                            if loginResponse['response'] == "OK":
+                                self._validSession = True
+                                # reset if theres any active error
+                                self.resetActiveErrorCode()
+                            else:
+                                self.sessionErrorCheck(loginResponse)
+                                self.logger.error(f"Login failed -- {response.text}")
                         else:
-                            raise hilinkException(self._modemname, "Username and password not provided for authentication")
+                            self.logger.error(f"Login failed -- {response.text}")
+                        # validate login & session end
+                    # else webui 10 login as default
+                    else:
+                        # login to webui 10
+                        self.logger.debug(f"Login initiated fot WebUI version 10")
+                        # grab the verification token
+                        self.logger.debug("Querying for token")
+                        response = self.httpGet("/api/webserver/token")
+                        tokenJson = xmltodict.parse(response.text)
+                        self.logger.debug(response.text)
+                        if "response" in tokenJson:
+                            _tmpToken = tokenJson['response']['token']
+                            self._RequestVerificationToken = _tmpToken[len(_tmpToken) - 32:len(_tmpToken)] 
+                        # log
+                        self.logger.debug(f"Having session ID = {self._sessionId}")
+                        self.logger.debug(f"Having request verification token = {self._RequestVerificationToken}")
+                        # generate password value
+                        password_value = self.login_b64_sha256(self._username + self.login_b64_sha256(self._password) + self._RequestVerificationToken)
+                        # challenge login
+                        client_nonce = uuid.uuid4().hex + uuid.uuid4().hex
+                        # generate request XML body
+                        xml_body = """
+                        <?xml version="1.0" encoding="UTF-8"?>
+                        <request>
+                        <username>{}</username>
+                        <firstnonce>{}</firstnonce>
+                        <mode>1</mode>
+                        </request>
+                        """.format(self._username, client_nonce)
+                        # challenge headers
+                        headers = {
+                            'X-Requested-With':'XMLHttpRequest',
+                            '__RequestVerificationToken': self._RequestVerificationToken
+                            }
+                        # challenge_login
+                        response = self.httpPost("/api/user/challenge_login", xml_body, cookies=None, headers=headers)
+                        challangeDict = xmltodict.parse(response.text)
+                        self.logger.debug("Login challangeDict")
+                        # check for response
+                        if 'response' in challangeDict:
+                            salt = challangeDict['response']['salt']
+                            server_nonce = challangeDict['response']['servernonce']
+                            iterations = int(challangeDict['response']['iterations'])
+                            # authenticate login
+                            msg = "%s,%s,%s" % (client_nonce, server_nonce, server_nonce)
+                            salted_pass = hashlib.pbkdf2_hmac('sha256', bytearray(self._password.encode('utf-8')), bytearray.fromhex(salt), iterations)
+                            client_key = hmac.new(b'Client Key', msg=salted_pass, digestmod=hashlib.sha256)
+                            stored_key = hashlib.sha256()
+                            stored_key.update(client_key.digest())
+                            signature = hmac.new(msg.encode('utf_8'), msg=stored_key.digest(), digestmod=hashlib.sha256)
+                            client_key_digest = client_key.digest()
+                            signature_digest = signature.digest()
+                            client_proof = bytearray()
+                            i = 0
+                            while i < client_key.digest_size:
+                                val = ord(client_key_digest[i:i + 1]) ^ ord(signature_digest[i:i + 1])
+                                client_proof.append(val)
+                                i = i + 1
+                            HexClientProof = hexlify(client_proof)
+                            xml_body = """
+                            <?xml version="1.0" encoding="UTF-8"?>
+                            <request>
+                            <clientproof>{}</clientproof>
+                            <finalnonce>{}</finalnonce>
+                            </request>
+                            """.format(HexClientProof, server_nonce).replace("b\'", "").replace("\'", "")
+                            # login headers
+                            headers = {
+                                'X-Requested-With':'XMLHttpRequest',
+                                '__RequestVerificationToken': self._RequestVerificationToken
+                                }
+                            response = self.httpPost("/api/user/authentication_login", xml_body, cookies=None, headers=headers)
+                            loginResponse = xmltodict.parse(response.text)
+                            # validate login & session
+                            if "response" in loginResponse:
+                                self._validSession = True
+                                # reset if theres any active error
+                                self.resetActiveErrorCode()
+                            else:
+                                self.sessionErrorCheck(loginResponse)
+                                self.logger.error(f"Login failed -- {response.text}")
+                        else:
+                            self.sessionErrorCheck(challangeDict)
+                            self.logger.error("Invalid response for Login challageDict")
+                else:
+                    self.logger.error("Username & password are mandatory")
+            # login waittime is available have to wait
             else:
-                errMsg = f"User status check failed."
-                if 'error' in userStateResponse:
-                    errorCode = userStateResponse['error']['code']
-                    errMsg = f"{errMsg} errorCode={errorCode}"
-                    self.sessionErrorCheck(userStateResponse)
-                raise hilinkException(self._modemname, errMsg)
-
-    def sessionErrorCheck(self, responseXMLDict):
+                self.logger.error(f"Login wait time is available {self._loginWaitTime} minutes")
+        # login not required
+        else:
+            # validate session
+            self._validSession = True
+        ##############################
+        # update in an operation
+        self._inOperation = False
+        # update session refreshed
+        self._sessionRefreshed = True
+        # return session validation
+        return self._validSession
+    
+    def run(self):
+        """      
+        This is the overriding method for :class:threading.Thread.run()
+        
+        * Check login state of the session
+        * Perform login when required
+        
         """
-        This method will be called if *error* message returned as response in API end point calls.
+        self._isStopped = False
+        # if not stop initialized
+        while not self._stopped:
+            self.validateSession()
+            time.sleep(5)
+            ####### Loop delay ###########
+        # stopping completed
+        self._isStopped = True
         
-        This will re-initialize session using :meth:`~initialize` if **error** is presented in response XML.
+    ####################################################
+    ###################### Query methods ###############
+    ####################################################
         
-        :param    responseXMLDict:    Response XML as a dictionary
-        :type    responseXMLDict:    dictionary
-        
-        """
-        if "error" in responseXMLDict:
-            self.logger.debug("Re initializing")
-            self.initialize()
-                
     def queryDeviceInfo(self):
         """
         This method will query device information and update existing.
         
-        Authentication will check by calling :meth:`~authenticate` before calling device information API end point.
+        If session need a refresh :meth:`~validateSession` before calling device information API end point.
         
-        :raises:    :meth:`~hilinkException`, Raise an exception if an error received from API end point calls.
+        :return:   Return querying device info succeed or not
+        :rtype:    boolean
         """
-        try:
-            # authenticate
-            authenticated = False
-            while (self.getLoginMaxTryCount() > self.getLoginTriedCount()) and not authenticated:
-                authenticated = self.authenticate()
-            # require authentication
-            if authenticated: 
+        # if session is not refreshed validate and refresh session again
+        if not self._sessionRefreshed:
+            self.validateSession()
+        # wait if in an operation
+        while self._inOperation:
+            time.sleep(0.5)            
+        # if session is valid query device info
+        if self._validSession:
+            try:
+                ######### query device info ##########
                 headers = {'X-Requested-With':'XMLHttpRequest'}
                 response = self.httpGet("/api/device/information", headers=headers)
                 deviceInfo = xmltodict.parse(response.text)
@@ -540,163 +647,144 @@ class webui:
                         self._swversion = deviceInfo['response']['SoftwareVersion']
                     if "WebUIVersion" in deviceInfo['response']:
                         self._webui = deviceInfo['response']['WebUIVersion']
+                    # invalidate refresh
+                    self._sessionRefreshed = False
+                    # reset if theres any active error
+                    self.resetActiveErrorCode()
+                    # return success
+                    return True
                 else:
-                    errMsg = f"Failed to get device info."
-                    if 'error' in deviceInfo:
-                        errorCode = deviceInfo['error']['code']
-                        errMsg = f"{errMsg} errorCode={errorCode}"
-                        self.sessionErrorCheck(deviceInfo)
-                    raise hilinkException(self._modemname, errMsg)
-        except Exception as e:
-            self.logger.error(e)
-            raise hilinkException(self._modemname, "Failed to get device info")
+                    self.sessionErrorCheck(deviceInfo)
+                    self._sessionRefreshed = False
+                    return False
+                ####### query device info end ########
+            except Exception as e:
+                # invalidate refresh
+                self._sessionRefreshed = False
+                self.logger.error(e)
+                self.logger.error(f"{self._modemname} Failed to get device info")
+                return False
+        else:
+            # invalidate refresh
+            self._sessionRefreshed = False
+            self.logger.error(f"{self._modemname} Failed to get device info")
+            return False
 
     def queryWANIP(self):
         """
         This method will query WAN IP from the carrier network and update existing.
         
-        Authentication will check by calling :meth:`~authenticate` before calling device information API end point.
+        If session need a refresh :meth:`~validateSession`  before calling device information API end point.
         
         Separate API end points will be called as per the WebUI version.
         
-        :raises:    :meth:`~hilinkException`, Raise an exception if an error received from API end point calls.
+        :return:   Return querying WAN IP succeed or not
+        :rtype:    boolean
         """
-        try:
+        # if session is not refreshed validate and refresh session again
+        if not self._sessionRefreshed:
+            self.validateSession()
+        # wait if in an operation
+        while self._inOperation:
+            time.sleep(0.5)            
+        # if session is valid query wan ip info
+        if self._validSession:
             # Make WAN IP None
             self._wanIP = None
-            # authenticate
-            authenticated = False
-            while (self.getLoginMaxTryCount() > self.getLoginTriedCount()) and not authenticated:
-                authenticated = self.authenticate()
-            # require authentication
-            if authenticated: 
-                if self._webuiversion == 17:  # webUI version 17
-                    headers = {'X-Requested-With':'XMLHttpRequest'}
-                    response = self.httpGet("/api/monitoring/status", headers=headers)
-                    wanIPInfo = xmltodict.parse(response.text)
-                    if "response" in wanIPInfo:
-                        if "WanIPAddress" in wanIPInfo['response']:
-                            self._wanIP = wanIPInfo['response']['WanIPAddress']
-                    else:
-                        errMsg = f"Failed to get WAN IP info."
-                        if 'error' in wanIPInfo:
-                            errorCode = wanIPInfo['error']['code']
-                            errMsg = f"{errMsg}. errorCode={errorCode}"
-                            self.sessionErrorCheck(wanIPInfo)
-                        raise hilinkException(self._modemname, errMsg)
-                if self._webuiversion == 10 or self._webuiversion == 21:  # WebUI 10 or 21
-                    headers = {'X-Requested-With':'XMLHttpRequest'}
-                    response = self.httpGet("/api/device/information", headers=headers)
-                    wanIPInfo = xmltodict.parse(response.text)
-                    if "response" in wanIPInfo:
-                        if "WanIPAddress" in wanIPInfo['response']:
-                            self._wanIP = wanIPInfo['response']['WanIPAddress']
-                    else:
-                        errMsg = f"Failed to get WAN IP info."
-                        if 'error' in wanIPInfo:
-                            errorCode = wanIPInfo['error']['code']
-                            errMsg = f"{errMsg}. errorCode={errorCode}"
-                            self.sessionErrorCheck(wanIPInfo)
-                        raise hilinkException(self._modemname, errMsg)
-        except Exception as e:
-            self.logger.error(e)
-            self.logger.error("WAN IP querying failed")            
-            
+            try:
+                ######### query WAN IP info ##########
+                headers = {'X-Requested-With':'XMLHttpRequest'}
+                # API endpoint is defer relavant to webui version
+                if self._webuiversion in (10, 21):
+                    wanIPAPIEndPoint = "/api/device/information"
+                else:  # webui version 17
+                    wanIPAPIEndPoint = "/api/monitoring/status"
+                response = self.httpGet(wanIPAPIEndPoint, headers=headers)
+                wanIPInfo = xmltodict.parse(response.text)
+                if "response" in wanIPInfo:
+                    if "WanIPAddress" in wanIPInfo['response']:
+                        self._wanIP = wanIPInfo['response']['WanIPAddress']
+                    # invalidate refresh
+                    self._sessionRefreshed = False
+                    # reset if theres any active error
+                    self.resetActiveErrorCode()
+                    # return success
+                    return True
+                else:
+                    self.sessionErrorCheck(wanIPInfo)
+                    self._sessionRefreshed = False
+                    return False
+                ####### query WAN IP info end ########
+            except Exception as e:
+                # invalidate refresh
+                self._sessionRefreshed = False
+                self.logger.error(e)
+                self.logger.error(f"{self._modemname} Failed to get WAN IP info")
+                return False
+        else:
+            # invalidate refresh
+            self._sessionRefreshed = False
+            self.logger.error(f"{self._modemname} Failed to get WAN IP info")
+            return False
+        
     def queryNetwork(self):
         """
         This method will query network name of the carrier network and update existing.
         
-        Authentication will check by calling :meth:`~authenticate` before calling device information API end point.
+        If session need a refresh :meth:`~validateSession` before calling device information API end point.
         
-        :raises:    :meth:`~hilinkException`, Raise an exception if an error received from API end point calls.
+        :return:   Return querying network succeed or not
+        :rtype:    boolean
         """
-        try:
-            # authenticate
-            authenticated = False
-            while (self.getLoginMaxTryCount() > self.getLoginTriedCount()) and not authenticated:
-                authenticated = self.authenticate()
-            # require authentication
-            if authenticated: 
+        # if session is not refreshed validate and refresh session again
+        if not self._sessionRefreshed:
+            self.validateSession()
+        # wait if in an operation
+        while self._inOperation:
+            time.sleep(0.5)            
+        # if session is valid query network info
+        if self._validSession:
+            try:
                 headers = {'X-Requested-With':'XMLHttpRequest'}
                 response = self.httpGet("/api/net/current-plmn", headers=headers)
                 connectionInfo = xmltodict.parse(response.text)
                 if "response" in connectionInfo:
                     self._networkName = connectionInfo["response"]["FullName"]
                 else:
-                    errMsg = f"Failed to get connection info."
-                    if 'error' in connectionInfo:
-                        errorCode = connectionInfo['error']['code']
-                        errMsg = f"{errMsg} errorCode={errorCode}"
-                        self.sessionErrorCheck(connectionInfo)
-                    raise hilinkException(self._modemname, errMsg)
-        except Exception as e:
-            self.logger.error(e)
-            raise hilinkException(self._modemname, "Failed to get connection info")
-    
-    def __init__(self, modemname, host, username=None, password=None, logger=None):
-        """
-        Initialize webui
-        """
-        self._modemname = modemname
-        self._host = host
-        # assign empty strings if none
-        self._username = username if username is not None else ""
-        self._password = password if password is not None else ""
-        # decrypt configurations string, split and assign end
-        if logger is None:
-            self.logger = logging.getLogger(f"{__name__}--{self._modemname}")
+                    self.sessionErrorCheck(connectionInfo)
+                    self._sessionRefreshed = False
+                # invalidate refresh
+                self._sessionRefreshed = False
+                # reset if theres any active error
+                self.resetActiveErrorCode()
+                # return success
+                return True
+                ####### query network info end ########
+            except Exception as e:
+                # invalidate refresh
+                self._sessionRefreshed = False
+                self.logger.error(e)
+                self.logger.error(f"{self._modemname} Failed to get Network info")
+                return False
         else:
-            self.logger = logger
-        self._httpHost = f"http://{self._host}"
-        self._sessionId = None
-        self._RequestVerificationToken = None
-        # Authenticaion required or not
-        self._loginRequired = False
-        # login re-try count (only valid with authentication required instances)
-        self._loginTryCount = 0
-        self._loginTryCountMax = 2
-        self._callTimeOut = 15
-        # HuaweiWebUI version
-        # Has to be 10 or 17/21
-        self._webuiversion = None
-        # Device classify (hilink | wingle)
-        self._deviceClassify = None
-        # device info
-        self._deviceName = None
-        self._imei = None
-        self._serial = None
-        self._imsi = None
-        self._iccid = None
-        self._supportedModes = None
-        self._hwversion = None
-        self._swversion = None
-        self._webui = None
-        # connection info
-        self._workmode = None
-        self._wanIP = None
-        self._networkName = None
-        ###############################
-        # initialize
-        self.initialize()
-
-    def getLoginTriedCount(self):
-        """
-        This method will return unsuccessfull login attempts.
+            # invalidate refresh
+            self._sessionRefreshed = False
+            self.logger.error(f"{self._modemname} Failed to get Network info")
+            return False
         
-        :return:   Return unsuccessfull login attempts count
-        :rtype:    int    
+    ###################################################
+    ################# Get methods #####################
+    ###################################################
+    def getLoginRequired(self):
         """
-        return self._loginTryCount
+        This method will return either login/authentication required or not which will be updated after calling
+        :meth:`~initialize`.
+        
+        :return:   Return login required or not
+        :rtype:    bool
+        """
+        return self._loginRequired
     
-    def getLoginMaxTryCount(self):
-        """
-        This method will return maximum allowed login attempts.
-        
-        :return:   Return allowed max login attempts
-        :rtype:    int    
-        """
-        return self._loginTryCountMax
-        
     def getWebUIVersion(self):
         """
         This method will return WebUI version either *10*, *17* or *21*.
@@ -705,6 +793,49 @@ class webui:
         :rtype:    int    
         """
         return self._webuiversion
+    
+    def getValidSession(self):
+        """
+        This method will return if the session is valid for querying and operations or not
+        
+        :return:   Return a valid session or not
+        :rtype:    boolean    
+        """
+        return self._validSession
+    
+    def getActiveError(self):
+        """
+        This method will return if theres any active error code else none
+        
+        :return:   Return {"errorcode":<code>,"error":"<error message>"}
+        :rtype:    dictionary    
+        """
+        
+        error = None
+        if self._activeErrorCode > 0:
+            if self._activeErrorCode in self.errorCodes:
+                error = {
+                    "errorcode":self._activeErrorCode,
+                    "error":self.errorCodes[self._activeErrorCode]
+                }
+            else:
+                error = {
+                    "errorcode":self._activeErrorCode,
+                    "error":"Un-identified"
+                }
+        ###########
+        return error
+
+    def getLoginWaitTime(self):
+        """
+        This method will return waittime for next login attemp 
+        
+        If session need a refresh :meth:`~validateSession` before calling device information API end point.
+        
+        :return:   Login wait time
+        :rtype:    int
+        """
+        return self._loginWaitTime
 
     def getDeviceName(self):
         """
@@ -776,39 +907,41 @@ class webui:
         """
         return self._networkName
     
-    def getLoginRequired(self):
+    def getWorkmode(self):
         """
-        This method will return either login/authentication required or not which will be updated after calling
-        :meth:`~initialize`.
+        This method will return the work mode.
         
-        :return:   Return login required or not
-        :rtype:    bool
+       Mandatory to update by device work mode by calling :meth:`~queryDeviceInfo` prior to call this method
+        
+        :return:   Return network name
+        :rtype:    string
         """
-        return self._loginRequired
-
+        return self._networkName
+    
+    #########################################
+    ######## Connection manage ##############
+    #########################################
     def switchConnection(self, status=True):
         """
         Switch on or off data connection based on :attr:`status`.
         
         :param    status:    Either set status of the connection On or Off
         :type    status:    bool
-        
-        :raises:    :meth:`~hilinkException`, Raise exception if,
-                        
-                        * An error occured
-                        * Invalid session token error message received in API end point calls
                         
         :return:   Return either requested connection switching succeeded or failed
         :rtype:    bool
         """
-        try:
-            dataSwitch = "1" if status else "0"
-            # authenticate
-            authenticated = False
-            while (self.getLoginMaxTryCount() > self.getLoginTriedCount()) and not authenticated:
-                authenticated = self.authenticate()
-            # require authentication
-            if authenticated: 
+        # if session is not refreshed validate and refresh session again
+        if not self._sessionRefreshed:
+            self.validateSession()
+        # wait if in an operation
+        while self._inOperation:
+            time.sleep(0.5)            
+        # if session is valid start switching data connection
+        if self._validSession:
+            try:
+                # data switch
+                dataSwitch = "1" if status else "0"
                 xml_body = f"""
                 <?xml version="1.0" encoding="UTF-8"?>
                 <request>
@@ -825,20 +958,29 @@ class webui:
                 dataswitchInfo = xmltodict.parse(response.text)
                 if "response" in dataswitchInfo:
                     self.logger.info(f"Switched data connection status = {dataSwitch}")
+                    # invalidate refresh
+                    self._sessionRefreshed = False
+                    # reset if theres any active error
+                    self.resetActiveErrorCode()
+                    # return success
                     return True
                 else:
-                    self.logger.error(f"Switching data connection status = {dataSwitch} failed")
-                    # check for know errors
-                    if 'error' in dataswitchInfo:
-                        if int(dataswitchInfo['error']['code']) == 125003:  # invalid session token
-                            self.sessionErrorCheck(dataswitchInfo)
-                            return self.switchConnection(status)
-                    # check for know errors end
-                    # if not a known error return false
+                    self._sessionRefreshed = False
+                    self.sessionErrorCheck(dataswitchInfo)
+                    self.logger.error(f"Switching data connection to status = {dataSwitch} failed")
+                    # Return failed
                     return False
-        except Exception as e:
-            self.logger.error(e)
-            self.logger.error(f"Switching data connection failed")
+                ####### switching data connection end ########
+            except Exception as e:
+                # invalidate refresh
+                self._sessionRefreshed = False
+                self.logger.error(e)
+                self.logger.error(f"{self._modemname} Failed to switch data connection")
+                return False
+        else:
+            # invalidate refresh
+            self._sessionRefreshed = False
+            self.logger.error(f"{self._modemname} Failed to switch connection")
             return False
         
     def switchLTE(self, ltestatus=True):
@@ -848,127 +990,83 @@ class webui:
         
         :param    ltestatus:    Network mode is LTE or not (WCDMA)
         :type    ltestatus:    bool
-        
-        :raises:    :meth:`~hilinkException`, Raise exception if,
-                        
-                        * An error occured
-                        * Invalid session token error message received in API end point calls
                         
         :return:   Return either requested network mode switching succeeded or failed
         :rtype:    bool
         """
-        # decide network mode
-        # http://192.168.10.1/config/network/networkmode.xml
-        # 0=auto 02=3G 03=4G
-        NetworkMode = "03" if ltestatus else "02"
-        NetworkBand = ""
-        LTEBand = ""
-        # Fetch network band and LTE band
-        try:
-            # authenticate
-            authenticated = False
-            while (self.getLoginMaxTryCount() > self.getLoginTriedCount()) and not authenticated:
-                authenticated = self.authenticate()
-            # require authentication
-            if authenticated: 
+        # if session is not refreshed validate and refresh session again
+        if not self._sessionRefreshed:
+            self.validateSession()
+        # wait if in an operation
+        while self._inOperation:
+            time.sleep(0.5)            
+        # if session is valid start switching network mode
+        if self._validSession:
+            try:
+                # decide network mode
+                # http://192.168.10.1/config/network/networkmode.xml
+                # 0=auto 02=3G 03=4G
+                NetworkMode = "03" if ltestatus else "02"
+                NetworkBand = ""
+                LTEBand = ""
+                # fetch LTE bands
                 headers = {'X-Requested-With':'XMLHttpRequest'}
                 response = self.httpGet("/api/net/net-mode", headers=headers)
                 netModeInfo = xmltodict.parse(response.text)
                 if "response" in netModeInfo:
                     NetworkBand = netModeInfo['response']['NetworkBand']
                     LTEBand = netModeInfo['response']['LTEBand']
+                    # proceed switching
+                    xml_body = f"""
+                    <?xml version="1.0" encoding="UTF-8"?>
+                    <request>
+                    <NetworkMode>{NetworkMode}</NetworkMode>
+                    <NetworkBand>{NetworkBand}</NetworkBand>
+                    <LTEBand>{LTEBand}</LTEBand>
+                    </request>
+                    """
+                    headers = {
+                    'X-Requested-With':'XMLHttpRequest',
+                    '__RequestVerificationToken': self._RequestVerificationToken
+                    }
+                    self.logger.info(f"Switching network mode = {NetworkMode} {'LTE' if ltestatus else 'WCDMA'}")
+                    response = self.httpPost("/api/net/net-mode", xml_body, cookies=None, headers=headers)
+                    netmodeSwitchInfo = xmltodict.parse(response.text)
+                    if "response" in netmodeSwitchInfo:
+                        self.logger.info(f"Switched network mode = {NetworkMode} {'LTE' if ltestatus else 'WCDMA'}")
+                        # invalidate refresh
+                        self._sessionRefreshed = False
+                        # reset if theres any active error
+                        self.resetActiveErrorCode()
+                        # return success
+                        return True
+                    else:
+                        self._sessionRefreshed = False
+                        self.sessionErrorCheck(netmodeSwitchInfo)
+                        self.logger.error(f"Switching network mode = {NetworkMode} {'LTE' if ltestatus else 'WCDMA'} failed")
+                        # Return failed
+                        return False
+                # band configurations fetching failed
                 else:
-                    errMsg = f"Failed to get connection info."
-                    if 'error' in netModeInfo:
-                        errorCode = netModeInfo['error']['code']
-                        errMsg = f"{errMsg} errorCode={errorCode}"
-                        self.sessionErrorCheck(netModeInfo)
-                    raise hilinkException(self._modemname, errMsg)
-        except Exception as e:
-            self.logger.error(e)
-            raise hilinkException(self._modemname, "Failed to get network mode info")
-        # end of mode fetch
-        # switch mode
-        try:
-            # authenticate
-            authenticated = False
-            while (self.getLoginMaxTryCount() > self.getLoginTriedCount()) and not authenticated:
-                authenticated = self.authenticate()
-            # require authentication
-            if authenticated: 
-                xml_body = f"""
-                <?xml version="1.0" encoding="UTF-8"?>
-                <request>
-                <NetworkMode>{NetworkMode}</NetworkMode>
-                <NetworkBand>{NetworkBand}</NetworkBand>
-                <LTEBand>{LTEBand}</LTEBand>
-                </request>
-                """
-                headers = {
-                'X-Requested-With':'XMLHttpRequest',
-                '__RequestVerificationToken': self._RequestVerificationToken
-                }
-                # call switch
-                self.logger.info(f"Switching network mode = {NetworkMode} {'LTE' if ltestatus else 'WCDMA'}")
-                response = self.httpPost("/api/net/net-mode", xml_body, cookies=None, headers=headers)
-                netmodeSwitchInfo = xmltodict.parse(response.text)
-                if "response" in netmodeSwitchInfo:
-                    self.logger.info(f"Switched network mode = {NetworkMode} {'LTE' if ltestatus else 'WCDMA'}")
-                    return True
-                else:
-                    self.logger.error(f"Switching network mode = {NetworkMode} {'LTE' if ltestatus else 'WCDMA'} failed")
-                    # check for know errors
-                    if 'error' in netmodeSwitchInfo:
-                        if int(netmodeSwitchInfo['error']['code']) == 125003:  # invalid session token
-                            self.sessionErrorCheck(netmodeSwitchInfo)
-                            return self.switchLTE(ltestatus)
-                    # check for know errors end
-                    # if not a known error return false
-                    return False
-        except Exception as e:
-            self.logger.error(e)
-            self.logger.error(f"Switching network mode failed")
+                    self._sessionRefreshed = False
+                    self.logger.error(f"{self._modemname} Failed to fetch network bands from /config/network/networkmode.xml")
+                    return False                
+                ####### switching network mode end ########
+            except Exception as e:
+                # invalidate refresh
+                self._sessionRefreshed = False
+                self.logger.error(e)
+                self.logger.error(f"{self._modemname} Failed to switch network mode")
+                return False
+        else:
+            # invalidate refresh
+            self._sessionRefreshed = False
+            self.logger.error(f"{self._modemname} Failed to switch network mode")
             return False
         
-    def reboot(self):
-        """
-        This method will soft reboot the modem. 
-        """
-        try:
-            # authenticate
-            authenticated = False
-            while (self.getLoginMaxTryCount() > self.getLoginTriedCount()) and not authenticated:
-                authenticated = self.authenticate()
-            # require authentication
-            if authenticated: 
-                xml_body = f"""
-                <?xml version="1.0" encoding="UTF-8"?>
-                <request>
-                <Control>1</Control>
-                </request>
-                """
-                headers = {
-                'X-Requested-With':'XMLHttpRequest',
-                '__RequestVerificationToken': self._RequestVerificationToken
-                }
-                # call switch
-                self.logger.info(f"Rebooting")
-                response = self.httpPost("/api/device/control", xml_body, cookies=None, headers=headers)
-                netRebootInfo = xmltodict.parse(response.text)
-                # check for know errors
-                if 'error' in netRebootInfo:
-                    if int(netRebootInfo['error']['code']) == 125003:  # invalid session token
-                        self.sessionErrorCheck(netRebootInfo)
-                        return self.switchReboot()
-                # check for know errors end
-                # if not a known error return false               
-                self.logger.info(f"Rebooted")
-                return True
-        except Exception as e:
-            self.logger.error(e)
-            self.logger.error(f"Rebooting failed")
-            return False 
-        
+    ################################################
+    ########## Modem management ####################
+    ################################################
     def switchDHCPIPBlock(self, gateway):
         """
         This methos will change DHCP IP block and gateway(modem) IP based on provided :attr:`gateway`.
@@ -981,15 +1079,16 @@ class webui:
         :param    gateway:    Gateway or IP of the modem
         :type    gateway:    string
         
-        :raises:    :meth:`~hilinkException`
         """
-        try:
-            # authenticate
-            authenticated = False
-            while (self.getLoginMaxTryCount() > self.getLoginTriedCount()) and not authenticated:
-                authenticated = self.authenticate()
-            # require authentication
-            if authenticated: 
+        # if session is not refreshed validate and refresh session again
+        if not self._sessionRefreshed:
+            self.validateSession()
+        # wait if in an operation
+        while self._inOperation:
+            time.sleep(0.5)            
+        # if session is valid start switching DHCP IP block
+        if self._validSession:
+            try:
                 xml_body = f"""
                 <?xml version="1.0" encoding="UTF-8"?>
                 <request>
@@ -1010,8 +1109,18 @@ class webui:
                 }
                 # call switch
                 self.logger.info(f"Gateway IP changing into {gateway}")
-                response = self.httpPost("/api/dhcp/settings", xml_body, cookies=None, headers=headers)
-        except Exception as e:
-            self.logger.error(e)
-            self.logger.error(f"Gateway IP changing failed")
-            return False    
+                self.httpPost("/api/dhcp/settings", xml_body, cookies=None, headers=headers)
+                # No response & immediatly modem reboot with new IP block
+                # Therefore need to stop
+                self.stop()
+                self.logger.info(f"Stop the thread due to gateway change")
+                ####### switching DHCP IP block end ########
+            except Exception as e:
+                # invalidate refresh
+                self._sessionRefreshed = False
+                self.logger.error(e)
+                self.logger.error(f"{self._modemname} Failed to switch DHCP IP block")
+        else:
+            # invalidate refresh
+            self._sessionRefreshed = False
+            self.logger.error(f"{self._modemname} Failed to switch DHCP IP block")

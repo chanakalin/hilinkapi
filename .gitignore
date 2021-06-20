@@ -1,0 +1,7 @@
+docs/build
+__pycache__
+*.log
+rotation
+*.c
+*.so
+build
