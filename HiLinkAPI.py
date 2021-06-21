@@ -113,6 +113,10 @@ class webui(Thread):
         self._stopped = True
         # thread stopped
         self._isStopped = True
+        # network modes
+        #LTE=3, WCDMA=2, GSM=1 network modes
+        self._netModePrimary = 3
+        self._netModeSecondary = 2
         ###############################
         # device info
         self._deviceName = None
@@ -669,6 +673,36 @@ class webui(Thread):
             self._sessionRefreshed = False
             self.logger.error(f"{self._modemname} Failed to get device info")
             return False
+        
+    def querySupportedNetworkMethods(self):
+        """
+        This method will query supported network modes
+        
+        If session need a refresh :meth:`~validateSession` before calling device information API end point.
+        
+        :return:   Return querying supported network modes succeeded or not
+        :rtype:    boolean
+        """
+        # if session is not refreshed validate and refresh session again
+        if not self._sessionRefreshed:
+            self.validateSession()
+        # wait if in an operation
+        while self._inOperation:
+            time.sleep(0.5)            
+        # if session is valid query wan ip info
+        if self._validSession:
+            #### Query supported network modes ####
+            headers = {'X-Requested-With':'XMLHttpRequest'}
+            response = self.httpGet("/config/network/networkmode.xml", headers=headers)
+            supportedNetModes = xmltodict.parse(response.text)
+            print(response.text)
+            #print(supportedNetModes)
+        else:
+            # invalidate refresh
+            self._sessionRefreshed = False
+            self.logger.error(f"{self._modemname} Failed to get supported network modes")
+            return False
+        
 
     def queryWANIP(self):
         """
@@ -771,6 +805,34 @@ class webui(Thread):
             self._sessionRefreshed = False
             self.logger.error(f"{self._modemname} Failed to get Network info")
             return False
+        
+    ###################################################
+    ################# Set methods #####################
+    def setNetwokModes(self,primary="LTE",secondary="WCDMA"):
+        """
+        Set primary and secondary network modes respectively with :attr:`primary` and  :attr:`secondary`.
+        
+        :param    primary:    Either "LTE","WCDMA" or "GSM" as primary network mode        
+        :param    secondary:    Either "LTE","WCDMA" or "GSM" as secondary network mode
+        :type    primary:    String
+        :type    secondary:    String
+                        
+        :return:   Return network mode configuration success or not
+        :rtype:    bool
+        """
+        modes = {"LTE":3,"WCDMA":2,"GSM":1,"AUTO":0}
+        #primary
+        if primary in modes:
+            self._netModePrimary = modes[primary]
+        else:
+            return False
+        #secondary
+        if secondary in modes:
+            self._netModeSecondary = modes[secondary]
+        else:
+            return False
+        #if both went fine return True as success
+        return True
         
     ###################################################
     ################# Get methods #####################
@@ -918,6 +980,16 @@ class webui(Thread):
         """
         return self._networkName
     
+    def getNetwokModes(self):
+        """
+        Get primary and secondary network modes
+                        
+        :return:   {"primary":<<Primary networn mode>>,"secondary":<<Secondary networn mode>>}
+        :rtype:    dictionary 
+        """
+        modes = {3:"LTE",2:"WCDMA",1:"GSM",0:"AUTO"}
+        return {"primary":modes[self._netModePrimary],"secondary":modes[self._netModeSecondary]}
+    
     #########################################
     ######## Connection manage ##############
     #########################################
@@ -983,13 +1055,15 @@ class webui(Thread):
             self.logger.error(f"{self._modemname} Failed to switch connection")
             return False
         
-    def switchLTE(self, ltestatus=True):
+    def switchNetworMode(self, primary=True):
         """
-        Switch network mode either *WCDMA* or *LTE* based on :attr:`ltestatus`.
-        If :attr:`ltestatus` is **True** network mode switch to *LTE* or else to *WCDMA*.
+        Switch network between primary and secondary network modes based on :attr:`primary`.
+        If :attr:`primary` is **True** network mode switch to the primary or else to the secondary.
         
-        :param    ltestatus:    Network mode is LTE or not (WCDMA)
-        :type    ltestatus:    bool
+        Primary network mode and secondary network mode can be set using :meth:`~setNetwokModes` 
+        
+        :param    primary:    Primary network mode or secondary network mode
+        :type    primary:    bool
                         
         :return:   Return either requested network mode switching succeeded or failed
         :rtype:    bool
@@ -1005,8 +1079,8 @@ class webui(Thread):
             try:
                 # decide network mode
                 # http://192.168.10.1/config/network/networkmode.xml
-                # 0=auto 02=3G 03=4G
-                NetworkMode = "03" if ltestatus else "02"
+                # 0=auto 01=2G 02=3G 03=4G
+                NetworkMode = self._netModePrimary if primary else self._netModeSecondary
                 NetworkBand = ""
                 LTEBand = ""
                 # fetch LTE bands
@@ -1020,7 +1094,7 @@ class webui(Thread):
                     xml_body = f"""
                     <?xml version="1.0" encoding="UTF-8"?>
                     <request>
-                    <NetworkMode>{NetworkMode}</NetworkMode>
+                    <NetworkMode>0{NetworkMode}</NetworkMode>
                     <NetworkBand>{NetworkBand}</NetworkBand>
                     <LTEBand>{LTEBand}</LTEBand>
                     </request>
@@ -1029,11 +1103,11 @@ class webui(Thread):
                     'X-Requested-With':'XMLHttpRequest',
                     '__RequestVerificationToken': self._RequestVerificationToken
                     }
-                    self.logger.info(f"Switching network mode = {NetworkMode} {'LTE' if ltestatus else 'WCDMA'}")
+                    self.logger.info(f"Switching network mode = 0{NetworkMode} - NetworkBand={NetworkBand} LTEBand-{LTEBand}")
                     response = self.httpPost("/api/net/net-mode", xml_body, cookies=None, headers=headers)
                     netmodeSwitchInfo = xmltodict.parse(response.text)
                     if "response" in netmodeSwitchInfo:
-                        self.logger.info(f"Switched network mode = {NetworkMode} {'LTE' if ltestatus else 'WCDMA'}")
+                        self.logger.info(f"Switched network mode = 0{NetworkMode} - NetworkBand={NetworkBand} LTEBand-{LTEBand}")
                         # invalidate refresh
                         self._sessionRefreshed = False
                         # reset if theres any active error
@@ -1043,13 +1117,13 @@ class webui(Thread):
                     else:
                         self._sessionRefreshed = False
                         self.sessionErrorCheck(netmodeSwitchInfo)
-                        self.logger.error(f"Switching network mode = {NetworkMode} {'LTE' if ltestatus else 'WCDMA'} failed")
+                        self.logger.error(f"Switching network mode = 0{NetworkMode} failed")
                         # Return failed
                         return False
                 # band configurations fetching failed
                 else:
                     self._sessionRefreshed = False
-                    self.logger.error(f"{self._modemname} Failed to fetch network bands from /config/network/networkmode.xml")
+                    self.logger.error(f"{self._modemname} Failed to fetch network bands from /api/net/net-mode")
                     return False                
                 ####### switching network mode end ########
             except Exception as e:

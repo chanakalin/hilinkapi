@@ -7,9 +7,9 @@ logging.basicConfig(filename="hilinkapitest.log", format='%(asctime)s --  %(name
 
 try:
     webUIArray = [
-        #webui("E3372h-153", "192.168.18.1", "admin", "admin", logger=logging),
+        webui("E3372h-153", "192.168.18.1", "admin", "admin", logger=logging),
         #webui("E3372h-320", "192.168.8.1", "admin", "abcd@1234",logger=logging),
-         webui("E8372h-320", "192.168.10.1", "admin", "abcd@1234",logger=logging),
+        #webui("E8372h-320", "192.168.10.1", "admin", "abcd@1234",logger=logging),
     ]
     
     for webUI in webUIArray:
@@ -40,6 +40,11 @@ try:
             print(f"webui version = {webUI.getWebUIVersion()}")
             print(f"login required = {webUI.getLoginRequired()}")
             print(f"valid session = {webUI.validateSession()}")
+            print("########################################")
+            # set primary and secondary network modes
+            netMode = webUI.setNetwokModes("LTE","WCDMA")
+            print(f"Network mode setting = {netMode}")
+            print(webUI.getNetwokModes())
             # Device info
             print("########################################")
             deviceInfo = webUI.getDeviceInfo()
@@ -65,7 +70,7 @@ try:
             print(f"\tWAPN IP = {webUI.getWANIP()}")
             print("")
             #switching LTE / WCDMA
-            times = 30
+            times = 1
             while times > 0:
                 times -= 1
                 rotation = open("rotation", 'a')
@@ -74,16 +79,11 @@ try:
                 webUI.queryWANIP()
                 print(f"\tWAPN IP = {webUI.getWANIP()}")
                 rotation.write(f"WAPN IP = {webUI.getWANIP()}\n")
-                status=webUI.switchLTE(False)
+                status=webUI.switchNetworMode(False)
                 print(f"\tSwitching - WCDMA = \t{status}")
                 rotation.write(f"Switching - WCDMA = \t{status}\n")
-                webUI.queryWANIP()
-                while webUI.getWANIP() is None:
-                    webUI.queryWANIP()
-                print(f"\tWAPN IP = {webUI.getWANIP()}")
-                rotation.write(f"WAPN IP = {webUI.getWANIP()}\n")
                 sleep(1)
-                status=webUI.switchLTE(True)
+                status=webUI.switchNetworMode(True)
                 print(f"\tSwitching - LTE = \t{status}")
                 rotation.write(f"Switching - LTE = \t{status}\n")
                 webUI.queryWANIP()
