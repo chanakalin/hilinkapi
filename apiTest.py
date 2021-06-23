@@ -41,6 +41,10 @@ try:
             print(f"login required = {webUI.getLoginRequired()}")
             print(f"valid session = {webUI.validateSession()}")
             print("########################################")
+            #session refresh interval
+            #webUI.setSessionRefreshInteval(10)
+            print(f"Session refresh interval = {webUI.getSessionRefreshInteval()}")
+            print("########################################")
             # set primary and secondary network modes
             netMode = webUI.setNetwokModes("LTE","WCDMA")
             print(f"Network mode setting = {netMode}")

@@ -99,6 +99,8 @@ class webui(Thread):
         self._webuiversion = None  # Has to be 10 or 17/21
         # in an operation or not
         self._inOperation = False
+        #session refresh interval in seconds
+        self._sessionRefreshInterval = 10
         # session refreshed after an operation
         self._sessionRefreshed = False
         # Last operation ended time
@@ -593,11 +595,19 @@ class webui(Thread):
         * Perform login when required
         
         """
+        #init session refreshed
+        self._lastSessionRefreshed = 0
+        #set default stopped into false
         self._isStopped = False
         # if not stop initialized
         while not self._stopped:
-            self.validateSession()
-            time.sleep(5)
+            if time.time() >= (self._lastSessionRefreshed + self.getSessionRefreshInteval())
+                #validate session
+                self.validateSession()
+                #reset last session refreshed
+                self._lastSessionRefreshed = time.time()
+            #0.5 second delay in loop
+            time.sleep(0.5)
             ####### Loop delay ###########
         # stopping completed
         self._isStopped = True
@@ -833,6 +843,15 @@ class webui(Thread):
             return False
         #if both went fine return True as success
         return True
+    
+    def setSessionRefreshInteval(self,interval):
+        """
+        This method will set the session refresh interval while in idle without any operation.  
+        
+        :param    interval:    Session refresh interval in seconds     
+        :type    interval:    int
+        """
+        self._sessionRefreshInterval = interval
         
     ###################################################
     ################# Get methods #####################
@@ -864,6 +883,16 @@ class webui(Thread):
         :rtype:    boolean    
         """
         return self._validSession
+    
+    def getSessionRefreshInteval(self):
+        """
+        This method will return the session refresh interval while in idle without any operation.
+        Use :meth:`~setSessionRefreshInteval`
+       
+        :return:   Session refresh interval in seconds 
+        :rtype:    int
+        """
+        self._sessionRefreshInterval = interval
     
     def getActiveError(self):
         """
@@ -1079,7 +1108,7 @@ class webui(Thread):
             try:
                 # decide network mode
                 # http://192.168.10.1/config/network/networkmode.xml
-                # 0=auto 01=2G 02=3G 03=4G
+                # 0=auto 1=2G 2=3G 3=4G
                 NetworkMode = self._netModePrimary if primary else self._netModeSecondary
                 NetworkBand = ""
                 LTEBand = ""
