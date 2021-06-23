@@ -601,7 +601,7 @@ class webui(Thread):
         self._isStopped = False
         # if not stop initialized
         while not self._stopped:
-            if time.time() >= (self._lastSessionRefreshed + self.getSessionRefreshInteval())
+            if time.time() >= (self._lastSessionRefreshed + self.getSessionRefreshInteval()):
                 #validate session
                 self.validateSession()
                 #reset last session refreshed
@@ -892,7 +892,7 @@ class webui(Thread):
         :return:   Session refresh interval in seconds 
         :rtype:    int
         """
-        self._sessionRefreshInterval = interval
+        return self._sessionRefreshInterval
     
     def getActiveError(self):
         """
