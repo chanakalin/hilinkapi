@@ -374,6 +374,23 @@ class webui(Thread):
                     self.logger.error(f"{self._activeErrorCode} -- {self.errorCodes[self._activeErrorCode]}")
                 else:
                     self.logger.error(f"Unidentified error code - {self._activeErrorCode}")
+                ########################################################
+                ####### Try to recover identified / known errors #######
+                if self._activeErrorCode == 125003: #Wrong session token
+                    self.logger.info(f"Re-initializing webui due to wrong session token error")
+                    #stop
+                    self.stop()
+                    while(not self.isStopped()):
+                        self.stop()
+                        self.logger.info(f"Waiting for stop")
+                        time.sleep(1)
+                    #re-initialize, validate and start
+                    self.initialize()
+                    self.validateSession()
+                    self.start()
+                    self.logger.info(f"Re-initialization of webui due to wrong session token error completed")
+                ###### End of recovering identified / known errors #####
+                ########################################################
             except Exception as e:
                 self.logger.error("Error code extraction failed")
                 self.logger.error(e)
