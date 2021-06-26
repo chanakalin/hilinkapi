@@ -608,5 +608,105 @@ __RequestVerificationToken:CQe0Jf8cFydqncdI49jX1NCUnLE5qPSZ
 *************Support LTE off*************
 
 
+*************Data roaming / Auto disconnect****************
+#### Roaming enable / Auto disconnect - 120 minutes
+POST /api/dialup/connection HTTP/1.1
+Host: 192.168.18.1
+Content-Length: 249
+Accept: */*
+X-Requested-With: XMLHttpRequest
+__RequestVerificationToken: HPH4Vf6RXwAQLzCiR/xCC0YfBykcepdh
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+Origin: http://192.168.18.1
+Referer: http://192.168.18.1/html/mobileconnection.html
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: SessionID=yUQHcIfGt/XhcEvfZ2jZTAP4mzErfA8Lj137IYvDbwWWWxoo5h8XQQn8kOL1pkk5l2GYVNMt6Bfd+lwWA9i2AsEsy9F3suh0XS2w9hEKCznj25ybJezqW/owx8IHqi1F
+Connection: close
+
+<?xml version="1.0" encoding="UTF-8"?><request><RoamAutoConnectEnable>1</RoamAutoConnectEnable><MaxIdelTime>7200</MaxIdelTime><ConnectMode>0</ConnectMode><MTU>1500</MTU><auto_dial_switch>1</auto_dial_switch><pdp_always_on>0</pdp_always_on></request>
+
+
+##### Roaming disable auto disconnect 10 minutes
+POST /api/dialup/connection HTTP/1.1
+Host: 192.168.18.1
+Content-Length: 248
+Accept: */*
+X-Requested-With: XMLHttpRequest
+__RequestVerificationToken: /RkJgmRg7HQ8MyN5bAo3zT8OqPKvN6Vs
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+Origin: http://192.168.18.1
+Referer: http://192.168.18.1/html/mobileconnection.html
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: SessionID=yUQHcIfGt/XhcEvfZ2jZTAP4mzErfA8Lj137IYvDbwWWWxoo5h8XQQn8kOL1pkk5l2GYVNMt6Bfd+lwWA9i2AsEsy9F3suh0XS2w9hEKCznj25ybJezqW/owx8IHqi1F
+Connection: close
+
+<?xml version="1.0" encoding="UTF-8"?><request><RoamAutoConnectEnable>0</RoamAutoConnectEnable><MaxIdelTime>600</MaxIdelTime><ConnectMode>0</ConnectMode><MTU>1500</MTU><auto_dial_switch>1</auto_dial_switch><pdp_always_on>0</pdp_always_on></request>
+
+HTTP/1.1 200 OK
+Date: Thu, 01 Jan 1970 00:00:00 GMT
+Server: WebServer
+Connection: close
+X-Download-Options: noopen
+X-Frame-Options: deny
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=31536000; includeSubdomains
+Cache-Control: no-cache
+Content-Type: text/html
+Content-Length: 61
+__RequestVerificationToken:jLJuB9JsaRDdATHij6/L1X0A89w5uHhK
+
+<?xml version="1.0" encoding="UTF-8"?><response>OK</response>
+
+
+
+########## Read roaming / auto disconnect ##############
+GET /api/dialup/connection HTTP/1.1
+Host: 192.168.18.1
+Accept: */*
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36
+X-Requested-With: XMLHttpRequest
+Referer: http://192.168.18.1/html/mobileconnection.html
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: SessionID=yUQHcIfGt/XhcEvfZ2jZTAP4mzErfA8Lj137IYvDbwWWWxoo5h8XQQn8kOL1pkk5l2GYVNMt6Bfd+lwWA9i2AsEsy9F3suh0XS2w9hEKCznj25ybJezqW/owx8IHqi1F
+Connection: close
+
+### Roaming disabled - 10 minutes auto disconnect
+HTTP/1.1 200 OK
+Date: Thu, 01 Jan 1970 00:00:00 GMT
+Server: WebServer
+Connection: close
+X-Download-Options: noopen
+X-Frame-Options: deny
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=31536000; includeSubdomains
+Cache-Control: no-cache
+Content-Type: text/html
+Content-Length: 250
+
+<?xml version="1.0" encoding="UTF-8"?><response><RoamAutoConnectEnable>0</RoamAutoConnectEnable><MaxIdelTime>600</MaxIdelTime><ConnectMode>0</ConnectMode><MTU>1500</MTU><auto_dial_switch>1</auto_dial_switch><pdp_always_on>0</pdp_always_on></response>
+
+
+#### Roaming enabled - 120 minutes auto disconnect ####
+HTTP/1.1 200 OK
+Date: Thu, 01 Jan 1970 00:00:00 GMT
+Server: WebServer
+Connection: close
+X-Download-Options: noopen
+X-Frame-Options: deny
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=31536000; includeSubdomains
+Cache-Control: no-cache
+Content-Type: text/html
+Content-Length: 251
+
+<?xml version="1.0" encoding="UTF-8"?><response><RoamAutoConnectEnable>1</RoamAutoConnectEnable><MaxIdelTime>7200</MaxIdelTime><ConnectMode>0</ConnectMode><MTU>1500</MTU><auto_dial_switch>1</auto_dial_switch><pdp_always_on>0</pdp_always_on></response>
+
+
+*************Data roaming / Auto disconnect end****************
 
  

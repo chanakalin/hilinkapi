@@ -99,7 +99,7 @@ class webui(Thread):
         self._webuiversion = None  # Has to be 10 or 17/21
         # in an operation or not
         self._inOperation = False
-        #session refresh interval in seconds
+        # session refresh interval in seconds
         self._sessionRefreshInterval = 10
         # session refreshed after an operation
         self._sessionRefreshed = False
@@ -116,7 +116,7 @@ class webui(Thread):
         # thread stopped
         self._isStopped = True
         # network modes
-        #LTE=3, WCDMA=2, GSM=1 network modes
+        # LTE=3, WCDMA=2, GSM=1 network modes
         self._netModePrimary = 3
         self._netModeSecondary = 2
         ###############################
@@ -134,7 +134,12 @@ class webui(Thread):
         self._workmode = None
         self._wanIP = None
         self._networkName = None
+        # data connection info
+        self._roamingEnabled = False
+        self._maxIdleTimeOut = 0
         ######### Initialize ###########
+        # Initialize the thread
+        Thread.__init__(self)
         
     def start(self):
         """
@@ -358,8 +363,6 @@ class webui(Thread):
             self.logger.error(e)
             raise hilinkException(self._modemname, "Failed to get user login state")   
         #############Authentication required check end#################
-        # Initialize the thread
-        Thread.__init__(self)
         
     def sessionErrorCheck(self, responseDict):
         """
@@ -376,18 +379,11 @@ class webui(Thread):
                     self.logger.error(f"Unidentified error code - {self._activeErrorCode}")
                 ########################################################
                 ####### Try to recover identified / known errors #######
-                if self._activeErrorCode == 125003: #Wrong session token
+                if self._activeErrorCode == 125003:  # Wrong session token
                     self.logger.info(f"Re-initializing webui due to wrong session token error")
-                    #stop
-                    self.stop()
-                    while(not self.isStopped()):
-                        self.stop()
-                        self.logger.info(f"Waiting for stop")
-                        time.sleep(1)
-                    #re-initialize, validate and start
+                    # re-initialize, validate and start
                     self.initialize()
                     self.validateSession()
-                    self.start()
                     self.logger.info(f"Re-initialization of webui due to wrong session token error completed")
                 ###### End of recovering identified / known errors #####
                 ########################################################
@@ -612,18 +608,18 @@ class webui(Thread):
         * Perform login when required
         
         """
-        #init session refreshed
+        # init session refreshed
         self._lastSessionRefreshed = 0
-        #set default stopped into false
+        # set default stopped into false
         self._isStopped = False
         # if not stop initialized
         while not self._stopped:
             if time.time() >= (self._lastSessionRefreshed + self.getSessionRefreshInteval()):
-                #validate session
+                # validate session
                 self.validateSession()
-                #reset last session refreshed
+                # reset last session refreshed
                 self._lastSessionRefreshed = time.time()
-            #0.5 second delay in loop
+            # 0.5 second delay in loop
             time.sleep(0.5)
             ####### Loop delay ###########
         # stopping completed
@@ -723,13 +719,12 @@ class webui(Thread):
             response = self.httpGet("/config/network/networkmode.xml", headers=headers)
             supportedNetModes = xmltodict.parse(response.text)
             print(response.text)
-            #print(supportedNetModes)
+            # print(supportedNetModes)
         else:
             # invalidate refresh
             self._sessionRefreshed = False
             self.logger.error(f"{self._modemname} Failed to get supported network modes")
             return False
-        
 
     def queryWANIP(self):
         """
@@ -788,6 +783,55 @@ class webui(Thread):
             self.logger.error(f"{self._modemname} Failed to get WAN IP info")
             return False
         
+    def queryDataConnection(self):
+        """
+        This method will query following data connection properties and update existing.
+        
+        * Data roaming enabled or disabled
+        * Max connection idle timeout
+        
+        If session need a refresh :meth:`~validateSession` before calling device information API end point.
+        
+        :return:   Return querying data connection properties succeed or not
+        :rtype:    boolean
+        """
+        # if session is not refreshed validate and refresh session again
+        if not self._sessionRefreshed:
+            self.validateSession()
+        # wait if in an operation
+        while self._inOperation:
+            time.sleep(0.5)            
+        # if session is valid query data connection info
+        if self._validSession:
+            try:
+                headers = {'X-Requested-With':'XMLHttpRequest'}
+                response = self.httpGet("/api/dialup/connection", headers=headers)
+                dataConnectionInfo = xmltodict.parse(response.text)
+                if "response" in dataConnectionInfo:
+                    self._roamingEnabled = True if int(dataConnectionInfo["response"]["RoamAutoConnectEnable"]) == 1 else False
+                    self._maxIdleTimeOut = int(dataConnectionInfo["response"]["MaxIdelTime"])
+                else:
+                    self.sessionErrorCheck(dataConnectionInfo)
+                    self._sessionRefreshed = False
+                # invalidate refresh
+                self._sessionRefreshed = False
+                # reset if theres any active error
+                self.resetActiveErrorCode()
+                # return success
+                return True
+                ####### query data connection info end ########
+            except Exception as e:
+                # invalidate refresh
+                self._sessionRefreshed = False
+                self.logger.error(e)
+                self.logger.error(f"{self._modemname} Failed to get data connection configuration info")
+                return False
+        else:
+            # invalidate refresh
+            self._sessionRefreshed = False
+            self.logger.error(f"{self._modemname} Failed to get data connection configuration info")
+            return False
+        
     def queryNetwork(self):
         """
         This method will query network name of the carrier network and update existing.
@@ -835,7 +879,7 @@ class webui(Thread):
         
     ###################################################
     ################# Set methods #####################
-    def setNetwokModes(self,primary="LTE",secondary="WCDMA"):
+    def setNetwokModes(self, primary="LTE", secondary="WCDMA"):
         """
         Set primary and secondary network modes respectively with :attr:`primary` and  :attr:`secondary`.
         
@@ -847,21 +891,21 @@ class webui(Thread):
         :return:   Return network mode configuration success or not
         :rtype:    bool
         """
-        modes = {"LTE":3,"WCDMA":2,"GSM":1,"AUTO":0}
-        #primary
+        modes = {"LTE":3, "WCDMA":2, "GSM":1, "AUTO":0}
+        # primary
         if primary in modes:
             self._netModePrimary = modes[primary]
         else:
             return False
-        #secondary
+        # secondary
         if secondary in modes:
             self._netModeSecondary = modes[secondary]
         else:
             return False
-        #if both went fine return True as success
+        # if both went fine return True as success
         return True
     
-    def setSessionRefreshInteval(self,interval):
+    def setSessionRefreshInteval(self, interval):
         """
         This method will set the session refresh interval while in idle without any operation.  
         
@@ -1019,7 +1063,7 @@ class webui(Thread):
         """
         This method will return the work mode.
         
-       Mandatory to update by device work mode by calling :meth:`~queryDeviceInfo` prior to call this method
+        Mandatory to update by device work mode by calling :meth:`~queryDeviceInfo` prior to call this method
         
         :return:   Return network name
         :rtype:    string
@@ -1033,8 +1077,30 @@ class webui(Thread):
         :return:   {"primary":<<Primary networn mode>>,"secondary":<<Secondary networn mode>>}
         :rtype:    dictionary 
         """
-        modes = {3:"LTE",2:"WCDMA",1:"GSM",0:"AUTO"}
-        return {"primary":modes[self._netModePrimary],"secondary":modes[self._netModeSecondary]}
+        modes = {3:"LTE", 2:"WCDMA", 1:"GSM", 0:"AUTO"}
+        return {"primary":modes[self._netModePrimary], "secondary":modes[self._netModeSecondary]}
+    
+    def getDataRoaming(self):
+        """
+        This method will return either data roaming enabled or disabled.
+        
+        Mandatory to update by data configuration info by calling :meth:`~queryDataConnection` prior to call this method
+                
+        :return:   Return data roaming enabled or not
+        :rtype:    bool
+        """
+        return self._roamingEnabled
+    
+    def getMaxIdleTime(self):
+        """
+        This method will return max idle time out of the data connection.
+        
+        Mandatory to update by data configuration info by calling :meth:`~queryDataConnection` prior to call this method
+                
+        :return:   Return max data connection idle time
+        :rtype:    int
+        """
+        return self._maxIdleTimeOut
     
     #########################################
     ######## Connection manage ##############
@@ -1182,6 +1248,80 @@ class webui(Thread):
             # invalidate refresh
             self._sessionRefreshed = False
             self.logger.error(f"{self._modemname} Failed to switch network mode")
+            return False
+    
+    def configureDataConnection(self, roaming=True, maxIdleTime=0):
+        """
+        This method will configure data connection properties
+        
+        * Switch on or off data roaming based on :attr:`roaming`.
+        * Set max idle time out for the data connection
+        * Rest of configurations keep as defaults
+        
+        :param    roaming:    Either set data roaming enabled or disabled
+        :param    maxIdleTime:    Maximum idle timeout for the data connection 
+        :type    roaming:    bool
+        :type    maxIdleTime:    int, Default to 0 = Disabled 
+                        
+        :return:   Return either data connection configuration succeeded or failed
+        :rtype:    bool
+        """
+        # if session is not refreshed validate and refresh session again
+        if not self._sessionRefreshed:
+            self.validateSession()
+        # wait if in an operation
+        while self._inOperation:
+            time.sleep(0.5)            
+        # if session is valid start configuring data connection
+        if self._validSession:
+            try:
+                # roaming
+                dataRoaming = "1" if roaming else "0"
+                
+                xml_body = f"""
+                <?xml version="1.0" encoding="UTF-8"?>
+                <request>
+                <RoamAutoConnectEnable>{dataRoaming}</RoamAutoConnectEnable>
+                <MaxIdelTime>{maxIdleTime}</MaxIdelTime>
+                <ConnectMode>0</ConnectMode>
+                <MTU>1500</MTU>
+                <auto_dial_switch>1</auto_dial_switch>
+                <pdp_always_on>0</pdp_always_on>
+                </request>
+                """
+                headers = {
+                'X-Requested-With':'XMLHttpRequest',
+                '__RequestVerificationToken': self._RequestVerificationToken
+                }
+                # call api
+                self.logger.info(f"Configuring data connection Roaming = {dataRoaming}, Max idle timeout = {maxIdleTime}(sec)")
+                response = self.httpPost("/api/dialup/connection", xml_body, cookies=None, headers=headers)
+                dataswitchInfo = xmltodict.parse(response.text)
+                if "response" in dataswitchInfo:
+                    self.logger.info(f"Configured data connection Roaming = {dataRoaming}, Max idle timeout = {maxIdleTime}(sec)")
+                    # invalidate refresh
+                    self._sessionRefreshed = False
+                    # reset if theres any active error
+                    self.resetActiveErrorCode()
+                    # return success
+                    return True
+                else:
+                    self._sessionRefreshed = False
+                    self.sessionErrorCheck(dataswitchInfo)
+                    self.logger.error(f"Configuring data connection Roaming = {dataRoaming}, Max idle timeout = {maxIdleTime}(sec)failed")
+                    # Return failed
+                    return False
+                ####### configuring data connection end ########
+            except Exception as e:
+                # invalidate refresh
+                self._sessionRefreshed = False
+                self.logger.error(e)
+                self.logger.error(f"{self._modemname} Failed to configure data connection")
+                return False
+        else:
+            # invalidate refresh
+            self._sessionRefreshed = False
+            self.logger.error(f"{self._modemname} Failed to configure connection")
             return False
         
     ################################################
