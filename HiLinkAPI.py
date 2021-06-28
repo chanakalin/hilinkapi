@@ -51,21 +51,47 @@ class webui(Thread):
     """
     
     errorCodes = {
-        108001: "Wrong username",
-        108002: "Wrong password",
-        108003: "Already logged in",
-        108005: "Too many logins / login attempts",
-        108006: "Wrong username or password",
-        108007: "Login attempts over run",
-        108009: "Login in different devices",
-        108010: "Frequency login",
-        100002: "System not supported",
-        100003: "System has no rights",
-        100004: "System busy",
-        125001: "Wrong token",
-        125002: "Wrong session",
-        125003: "Wrong session token",
-        }
+        # System errors
+        100002: "ERROR_SYSTEM_NO_SUPPORT",
+        100003: "ERROR_SYSTEM_NO_RIGHTS",
+        100004: "ERROR_BUSY",
+        # Authentication errors
+        108001: "ERROR_LOGIN_USERNAME_WRONG",
+        108002: "ERROR_LOGIN_PASSWORD_WRONG",
+        108003: "ERROR_LOGIN_ALREADY_LOGIN",
+        108005: "ERROR_LOGIN_TOO_MANY_USERS_LOGINED",
+        108006: "ERROR_LOGIN_USERNAME_OR_PASSWORD_ERROR",
+        108007: "ERROR_LOGIN_TOO_MANY_TIMES",
+        108008: "MODIFYPASSWORD_ERROR",
+        108009: "ERROR_LOGIN_IN_DEFFERENT_DEVICES",
+        108010: "ERROR_LOGIN_FREQUENTLY_LOGIN",
+        # SIM errors
+        101001: "ERROR_NO_SIM_CARD_OR_INVALID_SIM_CARD",
+        101002: "ERROR_CHECK_SIM_CARD_PIN_LOCK",
+        101003: "ERROR_CHECK_SIM_CARD_PUN_LOCK",
+        101004: "ERROR_CHECK_SIM_CARD_CAN_UNUSEABLE",
+        101005: "ERROR_ENABLE_PIN_FAILED",
+        101006: "ERROR_DISABLE_PIN_FAILED",
+        101007: "ERROR_UNLOCK_PIN_FAILED",
+        101008: "ERROR_DISABLE_AUTO_PIN_FAILED",
+        101009: "ERROR_ENABLE_AUTO_PIN_FAILED",
+        103002: "ERROR_DEVICE_PIN_VALIDATE_FAILED",
+        103003: "ERROR_DEVICE_PIN_MODIFFY_FAILED",
+        103004: "ERROR_DEVICE_PUK_MODIFFY_FAILED",
+        103008: "ERROR_DEVICE_SIM_CARD_BUSY",
+        103009: "ERROR_DEVICE_SIM_LOCK_INPUT_ERROR",
+        103011: "ERROR_DEVICE_PUK_DEAD_LOCK",
+        # Network errors
+        112001: "ERROR_SET_NET_MODE_AND_BAND_WHEN_DAILUP_FAILED",
+        112002: "ERROR_SET_NET_SEARCH_MODE_WHEN_DAILUP_FAILED",
+        112003: "ERROR_SET_NET_MODE_AND_BAND_FAILED",
+        112005: "ERROR_NET_REGISTER_NET_FAILED",
+        112008: "ERROR_NET_SIM_CARD_NOT_READY_STATUS",
+        # Session errors
+        125001: "ERROR_WRONG_TOKEN",
+        125002: "ERROR_WRONG_SESSION",
+        125003: "ERROR_WRONG_SESSION_TOKEN",
+    }
 
     def __init__(self, modemname, host, username=None, password=None, logger=None):
         """
@@ -379,7 +405,8 @@ class webui(Thread):
                     self.logger.error(f"Unidentified error code - {self._activeErrorCode}")
                 ########################################################
                 ####### Try to recover identified / known errors #######
-                if self._activeErrorCode == 125003:  # Wrong session token
+                # Wrong session token
+                if self._activeErrorCode == 125003:
                     self.logger.info(f"Re-initializing webui due to wrong session token error")
                     # re-initialize, validate and start
                     self.initialize()
@@ -968,15 +995,25 @@ class webui(Thread):
             if self._activeErrorCode in self.errorCodes:
                 error = {
                     "errorcode":self._activeErrorCode,
-                    "error":self.errorCodes[self._activeErrorCode]
+                    "error":str(self.errorCodes[self._activeErrorCode])
                 }
             else:
                 error = {
                     "errorcode":self._activeErrorCode,
-                    "error":"Un-identified"
+                    "error":"ERROR_NOT_IDENTIFIED"
                 }
         ###########
         return error
+    
+    def getKnownErrors(self):
+        """
+        This method will return all known errors 
+        
+        :return:   Return {"<error code>":"<error message>"...}
+        :rtype:    dictionary    
+        """
+        
+        return self.errorCodes
 
     def getLoginWaitTime(self):
         """
@@ -1327,6 +1364,54 @@ class webui(Thread):
     ################################################
     ########## Modem management ####################
     ################################################
+    def reboot(self):
+        """
+        Reboot the modem. Return only reboot initiation success or not only as reboot doesnot returns any.
+                        
+        :return:   Return reboot initiation success or not
+        :rtype:    bool
+        """
+        # if session is not refreshed validate and refresh session again
+        if not self._sessionRefreshed:
+            self.validateSession()
+        # wait if in an operation
+        while self._inOperation:
+            time.sleep(0.5)            
+        # if session is valid start rebooting
+        if self._validSession:
+            try:
+                xml_body = f"""
+                <?xml version="1.0" encoding="UTF-8"?>
+                <request>
+                <Control>1</Control>
+                </request>
+                """
+                headers = {
+                'X-Requested-With':'XMLHttpRequest',
+                '__RequestVerificationToken': self._RequestVerificationToken
+                }
+                # call reboot
+                # Use requests.post as no return and trigger of request timeout error
+                cookies = self.buildCookies()
+                try:
+                    requests.post(f"{self._httpHost}/api/device/control", data=xml_body, cookies=cookies, headers=headers, timeout=3)
+                except Exception as e:
+                    self.logger.debug(f"Reboot call exception found - {e}")
+                #return
+                return True
+                ####### rebooting end ########
+            except Exception as e:
+                # invalidate refresh
+                self._sessionRefreshed = False
+                self.logger.error(e)
+                self.logger.error(f"{self._modemname} Failed to initiating reboot")
+                return False
+        else:
+            # invalidate refresh
+            self._sessionRefreshed = False
+            self.logger.error(f"{self._modemname} Failed to initiating reboot")
+            return False
+    
     def switchDHCPIPBlock(self, gateway):
         """
         This methos will change DHCP IP block and gateway(modem) IP based on provided :attr:`gateway`.

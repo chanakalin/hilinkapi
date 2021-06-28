@@ -7,13 +7,19 @@ logging.basicConfig(filename="hilinkapitest.log", format='%(asctime)s --  %(name
 
 try:
     webUIArray = [
-         webui("E3372h-153", "192.168.18.1", "admin", "admin", logger=logging),
-        # webui("E3372h-320", "192.168.8.1", "admin", "abcd@1234", logger=logging),
+        # webui("E3372h-153", "192.168.18.1", "admin", "admin", logger=logging),
+        webui("E3372h-320", "192.168.8.1", "admin", "abcd@1234", logger=logging),
         # webui("E8372h-320", "192.168.10.1", "admin", "abcd@1234",logger=logging),
     ]
     
     for webUI in webUIArray:
         try:
+            # print known errors
+            # print("############# Known errors ############")
+            # knownErrors = webUI.getKnownErrors()
+            # for errorCode in knownErrors.keys():
+            #    print(f"{errorCode} = {str(knownErrors[errorCode])}")
+            # print("########################################")                
             # start
             webUI.start()
             # wait until validate the session
@@ -71,6 +77,9 @@ try:
             print("########################################")
             print(f"Network = {webUI.getNetwork()}")
             print("########################################\n")
+            ######### Reboot #########
+            # webUI.reboot()
+            #######Reboot end#########
             # Connection on off
             print(f"\t{datetime.now()}")
             webUI.queryWANIP()
