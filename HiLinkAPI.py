@@ -123,6 +123,8 @@ class webui(Thread):
         self._deviceName = None
         self._loginState = False  # Logged in to the session or not
         self._webuiversion = None  # Has to be 10 or 17/21
+        # webui initialization succeeded or not
+        self._isWebUIInitialized = False
         # in an operation or not
         self._inOperation = False
         # session refresh interval in seconds
@@ -312,7 +314,13 @@ class webui(Thread):
         self._deviceClassify = None
         self._deviceName = None
         # Initialize session
-        self.httpGet(endpoint="/")
+        try:
+            self.httpGet(endpoint="/")
+            self._isWebUIInitialized = True
+        except Exception as e:
+            # WebUI initialization failed
+            self._isWebUIInitialized = False
+            self.logger.error(e)
         # get request verification token
         # first webUI 10 or 21
         try:
@@ -639,17 +647,19 @@ class webui(Thread):
         self._lastSessionRefreshed = 0
         # set default stopped into false
         self._isStopped = False
-        # if not stop initialized
-        while not self._stopped:
-            if time.time() >= (self._lastSessionRefreshed + self.getSessionRefreshInteval()):
-                # validate session
-                self.validateSession()
-                # reset last session refreshed
-                self._lastSessionRefreshed = time.time()
-            # 0.5 second delay in loop
-            time.sleep(0.5)
-            ####### Loop delay ###########
-        # stopping completed
+        #if webUI successfully initialized start the thread
+        if self._isWebUIInitialized:
+            # if not stop initialized
+            while not self._stopped:
+                if time.time() >= (self._lastSessionRefreshed + self.getSessionRefreshInteval()):
+                    # validate session
+                    self.validateSession()
+                    # reset last session refreshed
+                    self._lastSessionRefreshed = time.time()
+                # 0.5 second delay in loop
+                time.sleep(0.5)
+                ####### Loop delay ###########
+        # at the end of termination mark as stopped
         self._isStopped = True
         
     ####################################################
