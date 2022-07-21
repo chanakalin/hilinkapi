@@ -384,7 +384,7 @@ class webui(Thread):
             if "response" in hilinkLogin:
                 if int(hilinkLogin['response']['hilink_login']) == 0:
                     # wingles always comes with authentication even hilink_login==0
-                    if str(self._deviceClassify).upper() == "WINGLE":
+                    if str(self._deviceClassify).upper() == "WINGLE" or str(self._deviceClassify).upper() == "MOBILE-WIFI":
                         self._loginRequired = True
                     else:
                         self._loginRequired = False
