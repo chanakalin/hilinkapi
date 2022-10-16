@@ -93,7 +93,7 @@ class webui(Thread):
         125003: "ERROR_WRONG_SESSION_TOKEN",
     }
 
-    def __init__(self, modemname, host, username=None, password=None, logger=None):
+    def __init__(self, modemname, host, username=None, password=None, logger=None, httptimeout=10):
         """
         Initialize webui
         """
@@ -110,7 +110,7 @@ class webui(Thread):
         # build http host URL
         self._httpHost = f"http://{self._host}"
         # timeout for a HTTP call (seconds)
-        self._HTTPcallTimeOut = 10
+        self._HTTPcallTimeOut = httptimeout
         # variables required for webui session
         self._sessionId = None
         self._RequestVerificationToken = None
